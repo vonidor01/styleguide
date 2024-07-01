@@ -21,6 +21,7 @@ that apply to that project.
 *   [HTML/CSS Style Guide][htmlcss]
 *   [JavaScript Style Guide][js]
 *   [Java Style Guide][java]
+*   [Markdown Style Guide][markdown]
 *   [Objective-C Style Guide][objc]
 *   [Python Style Guide][py]
 *   [R Style Guide][r]
@@ -70,6 +71,7 @@ changes, but we are primarily optimizing for Google's internal needs.
 [sh]: https://google.github.io/styleguide/shellguide.html
 [htmlcss]: https://google.github.io/styleguide/htmlcssguide.html
 [js]: https://google.github.io/styleguide/jsguide.html
+[markdown]: https://google.github.io/styleguide/docguide/style.html
 [ts]: https://google.github.io/styleguide/tsguide.html
 [angular]: https://google.github.io/styleguide/angularjs-google-style.html
 [cl]: https://google.github.io/styleguide/lispguide.xml
