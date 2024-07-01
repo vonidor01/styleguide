@@ -54,9 +54,12 @@ guides to assist developers working on Google owned and originated open source
 projects. Changes to the style guides are made to the internal style guides
 first and eventually copied into the versions found here. **External
 contributions are not accepted.** Pull requests are regularly closed without
-comment. Issues that raise questions, justify changes on technical merits, or
-point out obvious mistakes may get some engagement and could in theory lead to
-changes, but we are primarily optimizing for Google's internal needs.
+comment.
+
+People can file [issues using the GitHub tracker][gh-tracker]. Issues that raise
+questions, justify changes on technical merits, or point out obvious mistakes
+may get some engagement and could in theory lead to changes, but we are
+primarily optimizing for Google's internal needs.
 
 <a rel="license" href="https://creativecommons.org/licenses/by/3.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/3.0/88x31.png" /></a>
 
@@ -64,6 +67,7 @@ changes, but we are primarily optimizing for Google's internal needs.
 [csharp]: https://google.github.io/styleguide/csharp-style.html
 [swift]: https://google.github.io/swift/
 [objc]: objcguide.md
+[gh-tracker]: https://github.com/google/styleguide/issues
 [go]: go/
 [java]: https://google.github.io/styleguide/javaguide.html
 [py]: https://google.github.io/styleguide/pyguide.html
