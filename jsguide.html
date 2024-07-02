@@ -22,7 +22,7 @@ herein.</p>
 issues of formatting, but other types of conventions or coding standards as
 well. However, this document focuses primarily on the hard-and-fast rules that
 we follow universally, and avoids giving advice that isn't clearly enforceable
-(whether by human or tool). </p>
+(whether by human or tool).</p>
 
 <h3 id="terminology-notes">1.1 Terminology notes</h3>
 
@@ -31,11 +31,11 @@ we follow universally, and avoids giving advice that isn't clearly enforceable
 <ol>
 <li><p>The term <em>comment</em> always refers to <em>implementation</em> comments. We do not use
 the phrase <q>documentation comments</q>, instead using the common term &#8220;JSDoc&#8221;
-for both human-readable text and machine-readable annotations within
-<code>/** &#8230; */</code>.</p></li>
+for both human-readable text and machine-readable annotations within <code>/** &#8230;
+*/</code>.</p></li>
 <li><p>This Style Guide uses <a href="http://tools.ietf.org/html/rfc2119">RFC 2119</a> terminology when using the phrases <em>must</em>,
-<em>must not</em>, <em>should</em>, <em>should not</em>, and <em>may</em>.  The terms <em>prefer</em> and
-<em>avoid</em> correspond to <em>should</em> and <em>should not</em>, respectively.  Imperative
+<em>must not</em>, <em>should</em>, <em>should not</em>, and <em>may</em>. The terms <em>prefer</em> and
+<em>avoid</em> correspond to <em>should</em> and <em>should not</em>, respectively. Imperative
 and declarative statements are prescriptive and correspond to <em>must</em>.</p></li>
 </ol>
 
@@ -65,8 +65,8 @@ uses. Filenames&#8217; extension must be <code>.js</code>.</p>
 <h4 id="whitespace-characters">2.3.1 Whitespace characters</h4>
 
 <p>Aside from the line terminator sequence, the ASCII horizontal space character
-(0x20) is the only whitespace character that appears anywhere in a source
-file. This implies that</p>
+(0x20) is the only whitespace character that appears anywhere in a source file.
+This implies that</p>
 
 <ol>
 <li><p>All other whitespace characters in string literals are escaped, and</p></li>
@@ -109,9 +109,11 @@ are <strong>broken</strong> and they must be <strong>fixed</strong>.</p>
 
 <h2 id="source-file-structure">3 Source file structure</h2>
 
-<p>All new source files should either be a <code>goog.module</code> file (a file containing a
-<code>goog.module</code> call) or an ECMAScript (ES) module (uses <code>import</code> and <code>export</code>
-statements). Files consist of the following, <strong>in order</strong>:</p>
+<p>All new source files should either be a <code>goog.module</code>
+file (a file containing a <code>goog.module</code> call) or an ECMAScript (ES) module (uses
+<code>import</code> and <code>export</code> statements).</p>
+
+<p>Files consist of the following, <strong>in order</strong>:</p>
 
 <ol>
 <li>License or copyright information, if present</li>
@@ -139,14 +141,14 @@ file's implementation, which may be preceded by 1 or 2 blank lines.</p>
 line: lines containing a <code>goog.module</code> declaration must not be wrapped, and are
 therefore an exception to the 80-column limit.</p>
 
-<p>The entire argument to goog.module is what defines a namespace.  It is the
+<p>The entire argument to <code>goog.module</code> is what defines a namespace. It is the
 package name (an identifier that reflects the fragment of the directory
 structure where the code lives) plus, optionally, the main class/enum/interface
-that it defines concatenated to the end.</p>
+that it defines concatenated to the end in <code>lowerCamelCase</code>.</p>
 
-<p>Example</p>
+<p>Example:</p>
 
-<pre><code class="language-js prettyprint good">goog.module('search.urlHistory.UrlHistoryService');
+<pre><code class="language-js prettyprint good">goog.module('search.urlHistory.urlHistoryService');
 </code></pre>
 
 <h4 id="naming-hierarchy">3.3.1 Hierarchy</h4>
@@ -161,7 +163,7 @@ goog.module('foo.bar.baz');
 </code></pre>
 
 <p>The directory hierarchy reflects the namespace hierarchy, so that deeper-nested
-children are subdirectories of higher-level parent directories.  Note that this
+children are subdirectories of higher-level parent directories. Note that this
 implies that owners of &#8220;parent&#8221; namespace groups are necessarily aware of all
 child namespaces, since they exist in the same directory.</p>
 
@@ -186,15 +188,14 @@ namespace, this name <strong>must not</strong> be a child or parent of any other
 <code>goog.module('parent.child');</code> cannot both exist safely, nor can
 <code>goog.module('parent');</code> and <code>goog.module('parent.child.grandchild');</code>).</p>
 
-<h3 id="file-goog-module-exports">3.3.3 <code>goog.module</code> Exports</h3>
+<h4 id="file-goog-module-exports">3.3.3 <code>goog.module</code> Exports</h4>
 
 <p>Classes, enums, functions, constants, and other symbols are exported using the
 <code>exports</code> object. Exported symbols may be defined directly on the <code>exports</code>
 object, or else declared locally and exported separately. Symbols are only
 exported if they are meant to be used outside the module. Non-exported
-module-local symbols are not declared <code>@private</code> nor do their names end with an
-underscore. There is no prescribed ordering for exported and module-local
-symbols.</p>
+module-local symbols are not declared <code>@private</code>. There is no prescribed
+ordering for exported and module-local symbols.</p>
 
 <p>Examples:</p>
 
@@ -229,9 +230,17 @@ constant by the compiler.</p>
 exports = {exportedFunction};
 </code></pre>
 
+<p>Do not use default exports as they don't translate easily to ES module
+semantics.</p>
+
+<pre><code class="language-js prettyprint bad">exports = FancyClass;
+</code></pre>
+
 <p><span id="file-es6-modules"></span></p>
 
 <h3 id="file-es-modules">3.4 ES modules</h3>
+
+<p>ES modules are files that use the <code>import</code> and <code>export</code> keywords.</p>
 
 <p><span id="es6-module-imports"></span></p>
 
@@ -297,6 +306,11 @@ import * as math from './math/math.js';
 import * as vectorMath from './vector/math.js';
 </code></pre>
 
+<p>Some libraries might commonly use a namespace import prefix that violates this
+naming scheme, but overbearingly common open source use makes the violating
+style more readable. The only library that currently falls under this exception
+is <a href="https://threejs.org/">threejs</a>, using the <code>THREE</code> prefix.</p>
+
 <h6 id="naming-default-imports">3.4.1.3.2 Naming default imports</h6>
 
 <p>Default import names are derived from the imported file name and follow the
@@ -340,9 +354,8 @@ new DomesticatedCat();
 <h4 id="es-module-exports">3.4.2 Exports</h4>
 
 <p>Symbols are only exported if they are meant to be used outside the module.
-Non-exported module-local symbols are not declared <code>@private</code> nor do their names
-end with an underscore. There is no prescribed ordering for exported and
-module-local symbols.</p>
+Non-exported module-local symbols are not declared <code>@private</code>. There is no
+prescribed ordering for exported and module-local symbols.</p>
 
 <h5 id="named-vs-default-exports">3.4.2.1 Named vs default exports</h5>
 
@@ -366,37 +379,9 @@ class Foo { ... }
 export {Foo};
 </code></pre>
 
-<h5 id="exporting-static-containers">3.4.2.2 Exporting static container classes and objects</h5>
-
-<p>Do not export container classes or objects with static methods or properties for
-the sake of namespacing.</p>
-
-<pre><code class="language-js prettyprint bad">// container.js
-// Bad: Container is an exported class that has only static methods and fields.
-export class Container {
-  /** @return {number} */
-  static bar() {
-    return 1;
-  }
-}
-
-/** @const {number} */
-Container.FOO = 1;
-</code></pre>
-
-<p>Instead, export individual constants and functions:</p>
-
-<pre><code class="language-js prettyprint good">/** @return {number} */
-export function bar() {
-  return 1;
-}
-
-export const /** number */ FOO = 1;
-</code></pre>
-
 <p><span id="es6-exports-mutability"></span></p>
 
-<h5 id="esm-exports-mutability">3.4.2.3 Mutability of exports</h5>
+<h5 id="esm-exports-mutability">3.4.2.2 Mutability of exports</h5>
 
 <p>Exported variables must not be mutated outside of module initialization.</p>
 
@@ -429,7 +414,7 @@ export function setMutateFoo(newMutateFoo) {
 // instead make them module scoped and export a getter for foo and a wrapper for
 // mutateFooFunc.
 let /** number */ foo = 0;
-let /** function(number): number */ mutateFooFunc = foo =&gt; foo + 1;
+let /** function(number): number */ mutateFooFunc = (foo) =&gt; foo + 1;
 
 /** @return {number} */
 export function getFoo() {
@@ -448,7 +433,7 @@ export function setMutateFoo(mutateFoo) {
 
 <p><span id="es6-module-circular-dependencies"></span></p>
 
-<h5 id="es-module-export-from">3.4.2.4 export from</h5>
+<h5 id="es-module-export-from">3.4.2.3 export from</h5>
 
 <p><code>export from</code> statements must not be line wrapped and are therefore an
 exception to the 80-column limit. This applies to both <code>export from</code> flavors.</p>
@@ -492,9 +477,9 @@ export let x;
 
 <pre><code class="language-js prettyprint good">import * as goog from '../closure/goog/goog.js';
 
-const name = goog.require('a.name');
+const {compute} = goog.require('a.name');
 
-export const CONSTANT = name.compute();
+export const CONSTANT = compute();
 </code></pre>
 
 <p><code>goog.js</code> exports only a subset of properties from the global <code>goog</code> that can be
@@ -521,7 +506,7 @@ const myNamespace = goog.require('my.namespace');
 
 <p><code>goog.declareModuleId</code> can be used within ES modules to declare a
 <code>goog.module</code>-like module ID. This means that this module ID can be
-<code>goog.require</code>d, <code>goog.module.get</code>d, <code>goog.forwardDeclare</code>'d, etc. as if it were
+<code>goog.require</code>d, <code>goog.module.get</code>d etc. as if it were
 a <code>goog.module</code> that did not call <code>goog.module.declareLegacyNamespace</code>. It does
 not create the module ID as a globally available JavaScript symbol.</p>
 
@@ -546,18 +531,19 @@ export class Class {};
 
 <h3 id="file-set-test-only">3.5 <code>goog.setTestOnly</code></h3>
 
-<p>In a <code>goog.module</code> file the <code>goog.module</code> statement may optionally be followed
-by a call to <code>goog.setTestOnly()</code>.</p>
+<p>In a <code>goog.module</code> file the <code>goog.module</code> statement and, if present,
+<code>goog.module.declareLegacyNamespace()</code> statement may optionally be followed by a
+call to <code>goog.setTestOnly()</code>.</p>
 
-<p>In an ES module the <code>import</code> statements may optionally be followed by a call to
-<code>goog.setTestOnly()</code>.</p>
+<p>In an ES module the <code>import</code> statements may optionally be
+followed by a call to <code>goog.setTestOnly()</code>.</p>
 
 <h3 id="file-goog-require">3.6 <code>goog.require</code> and <code>goog.requireType</code> statements</h3>
 
 <p>Imports are done with <code>goog.require</code> and <code>goog.requireType</code> statements. The
 names imported by a <code>goog.require</code> statement may be used both in code and in
-type annotations, while those imported by a <code>goog.requireType</code> may be used
-in type annotations only.</p>
+type annotations, while those imported by a <code>goog.requireType</code> may be used in
+type annotations only.</p>
 
 <p>The <code>goog.require</code> and <code>goog.requireType</code> statements form a contiguous block
 with no empty lines. This block follows the <code>goog.module</code> declaration separated
@@ -575,8 +561,8 @@ qualified namespaces must not be used anywhere, except as an argument to
 <p><strong>Exception</strong>: Types, variables, and functions declared in externs files have to
 use their fully qualified name in type annotations and code.</p>
 
-<p>Aliases must match the final dot-separated component of the imported module's
-namespace.</p>
+<p>When <code>goog.require</code> is assigned to a single constant alias, it must match the
+final dot-separated component of the imported module's namespace.</p>
 
 <p><strong>Exception</strong>: In certain cases, additional components of the namespace can be
 used to form a longer alias. The resulting alias must retain the original
@@ -584,8 +570,9 @@ identifier's casing such that it still correctly identifies its type. Longer
 aliases may be used to disambiguate otherwise identical aliases, or if it
 significantly improves readability. In addition, a longer alias must be used to
 prevent masking native types such as <code>Element</code>, <code>Event</code>, <code>Error</code>, <code>Map</code>, and
-<code>Promise</code> (for a more complete list, see <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects">Standard Built-in Objects</a> and <a href="https://developer.mozilla.org/en-US/docs/Web/API">Web
-APIs</a> at MDN). When renaming destructured aliases, a space must follow the colon
+<code>Promise</code> (for a more complete list, see <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects">Standard Built-in Objects</a> and
+<a href="https://developer.mozilla.org/en-US/docs/Web/API">Web APIs</a> at MDN).</p>
+When renaming destructured aliases, a space must follow the colon
 as required in <a href="#formatting-horizontal-whitespace">??</a>.</p>
 
 <p>A file should not contain both a <code>goog.require</code> and a <code>goog.requireType</code>
@@ -616,32 +603,37 @@ limit.</p>
 <p>Example:</p>
 
 <pre><code class="language-js prettyprint good">// Standard alias style.
-const MyClass = goog.require('some.package.MyClass');
-const MyType = goog.requireType('some.package.MyType');
-// Namespace-based alias used to disambiguate.
-const NsMyClass = goog.require('other.ns.MyClass');
-// Namespace-based alias used to prevent masking native type.
-const RendererElement = goog.require('web.renderer.Element');
-// Out of sequence namespace-based aliases used to improve readability.
-// Also, require lines longer than 80 columns must not be wrapped.
-const SomeDataStructureModel = goog.requireType('identical.package.identifiers.models.SomeDataStructure');
-const SomeDataStructureProto = goog.require('proto.identical.package.identifiers.SomeDataStructure');
-// Standard alias style.
 const asserts = goog.require('goog.asserts');
 // Namespace-based alias used to disambiguate.
 const testingAsserts = goog.require('goog.testing.asserts');
 // Standard destructuring into aliases.
+const {MyClass} = goog.require('some.package');
+const {MyType} = goog.requireType('other.package');
 const {clear, clone} = goog.require('goog.array');
 const {Rgb} = goog.require('goog.color');
-// Namespace-based destructuring into aliases in order to disambiguate.
+// Namespace-based destructuring into aliases used to disambiguate.
+const {MyClass: NsMyClass} = goog.require('other.ns');
 const {SomeType: FooSomeType} = goog.requireType('foo.types');
 const {clear: objectClear, clone: objectClone} = goog.require('goog.object');
+// Namespace-based destructuring into aliases used to prevent masking native type.
+const {Element: RendererElement} = goog.require('web.renderer');
+// Out of sequence namespace-based aliases used to improve readability.
+// Also, require lines longer than 80 columns must not be wrapped.
+const {SomeDataStructure: SomeDataStructureModel} = goog.requireType('identical.package.identifiers.models');
+const {SomeDataStructure: SomeDataStructureProto} = goog.require('proto.identical.package.identifiers');
 // goog.require without an alias in order to trigger side effects.
 /** @suppress {extraRequire} Initializes MyFramework. */
 goog.require('my.framework.initialization');
 </code></pre>
 
 <p>Discouraged:</p>
+
+<pre><code class="language-js prettyprint bad">// Some legacy code uses a "default export" style to export a single class, enum,
+// record type, etc. Do not use this pattern in new JS.
+// When using a "default export", prefer destructuring into aliases.
+const MyClass = goog.require('some.package.MyClass');
+const MyType = goog.requireType('some.package.MyType');
+</code></pre>
 
 <pre><code class="language-js prettyprint bad">// If necessary to disambiguate, prefer PackageClass over SomeClass as it is
 // closer to the format of the module name.
@@ -684,20 +676,18 @@ function someFunction(param) {
 (separated by at least one blank line).</p>
 
 <p>This may consist of any module-local declarations (constants, variables,
-classes, functions, etc), as well as any exported symbols.
-</p>
+classes, functions, etc), as well as any exported symbols.</p>
 
 <h2 id="formatting">4 Formatting</h2>
 
 <p><strong>Terminology Note</strong>: <em>block-like construct</em> refers to the body of a class,
-function, method, or brace-delimited block of code.  Note that, by
+function, method, or brace-delimited block of code. Note that, by
 <a href="#features-array-literals">??</a> and <a href="#features-object-literals">??</a>, any array or
 object literal may optionally be treated as if it were a block-like construct.</p>
 
 <p>Tip: Use <code>clang-format</code>. The JavaScript community has invested effort to make
 sure clang-format <q>does the right thing</q> on JavaScript files. <code>clang-format</code> has
-integration with several popular
-editors.</p>
+integration with several popular editors.</p>
 
 <h3 id="formatting-braces">4.1 Braces</h3>
 
@@ -705,7 +695,7 @@ editors.</p>
 
 <p>Braces are required for all control structures (i.e. <code>if</code>, <code>else</code>, <code>for</code>, <code>do</code>,
 <code>while</code>, as well as any others), even if the body contains only a single
-statement.  The first statement of a non-empty block must begin on its own line.</p>
+statement. The first statement of a non-empty block must begin on its own line.</p>
 
 <p>Disallowed:</p>
 
@@ -717,7 +707,7 @@ for (let i = 0; i &lt; foo.length; i++) bar(foo[i]);
 
 <p><strong>Exception</strong>: A simple if statement that can fit entirely on a single line with
 no wrapping (and that doesn&#8217;t have an else) may be kept on a single line with no
-braces when it improves readability.  This is the only case in which a control
+braces when it improves readability. This is the only case in which a control
 structure may omit braces and newlines.</p>
 
 <pre><code class="language-js prettyprint good">if (shortCondition()) foo();
@@ -734,8 +724,8 @@ structure may omit braces and newlines.</p>
 <li>Line break before the closing brace.</li>
 <li>Line break after the closing brace <em>if</em> that brace terminates a statement or
 the body of a function or class statement, or a class method. Specifically,
-there is <em>no</em> line break after the brace if it is followed by <code>else</code>, <code>catch</code>,
-<code>while</code>, or a comma, semicolon, or right-parenthesis.</li>
+there is <em>no</em> line break after the brace if it is followed by <code>else</code>,
+<code>catch</code>, <code>while</code>, or a comma, semicolon, or right-parenthesis.</li>
 </ul>
 
 <p>Example:</p>
@@ -786,8 +776,8 @@ try {
 
 <p>Each time a new block or block-like construct is opened, the indent increases by
 two spaces. When the block ends, the indent returns to the previous indent
-level. The indent level applies to both code and comments throughout the
-block. (See the example in <a href="#formatting-nonempty-blocks">??</a>).</p>
+level. The indent level applies to both code and comments throughout the block.
+(See the example in <a href="#formatting-nonempty-blocks">??</a>).</p>
 
 <h4 id="formatting-array-literals">4.2.1 Array literals: optionally <q>block-like</q></h4>
 
@@ -844,38 +834,44 @@ someMethod(foo, {
 <p>Class literals (whether declarations or expressions) are indented as blocks. Do
 not add semicolons after methods, or after the closing brace of a class
 <em>declaration</em> (statements&#8212;such as assignments&#8212;that contain class <em>expressions</em>
-are still terminated with a semicolon). Use the <code>extends</code> keyword, but not the
-<code>@extends</code> JSDoc annotation unless the class extends a templatized type.</p>
+are still terminated with a semicolon). For inheritance, the <code>extends</code> keyword
+is sufficient unless the superclass is templatized. Subclasses of templatized
+types must explicitly specify the template type in an <code>@extends</code> JSDoc
+annotation, even if it is just passing along the same template name.</p>
 
 <p>Example:</p>
 
-<pre><code class="language-js prettyprint good">class Foo {
-  constructor() {
-    /** @type {number} */
-    this.x = 42;
+<pre><code class="language-js prettyprint good">/** @template T */
+class Foo {
+  /** @param {T} x */
+  constructor(x) {
+    /** @type {T} */
+    this.x = x;
   }
+}
 
+/** @extends {Foo&lt;number&gt;} */
+class Bar extends Foo {
+  constructor() {
+    super(42);
+  }
+}
+
+exports.Baz = class extends Bar {
   /** @return {number} */
   method() {
     return this.x;
   }
-}
-Foo.Empty = class {};
+};
 </code></pre>
 
-<pre><code class="language-js prettyprint good">/** @extends {Foo&lt;string&gt;} */
-foo.Bar = class extends Foo {
-  /** @override */
+<pre><code class="language-js prettyprint bad">/** @extends {Bar} */ // &lt;-- unnecessary @extends
+exports.Baz = class extends Bar {
+  /** @return {number} */
   method() {
-    return super.method() / 2;
+    return this.x;
   }
 };
-
-/** @interface */
-class Frobnicator {
-  /** @param {string} message */
-  frobnicate(message) {}
-}
 </code></pre>
 
 <h4 id="formatting-function-expressions">4.2.4 Function expressions</h4>
@@ -1020,6 +1016,11 @@ operator.</li>
 <li>A method or constructor name stays attached to the open parenthesis (<code>(</code>)
 that follows it.</li>
 <li>A comma (<code>,</code>) stays attached to the token that precedes it.</li>
+<li>A line break is never added between a return and the return value as this
+would change the meaning of the code.</li>
+<li>JSDoc annotations with type names break after <q>{</q>. This is necessary as
+annotations with optional types (@const, @private, @param, etc) do not scan
+the next line.</li>
 </ol>
 
 <blockquote>
@@ -1034,7 +1035,7 @@ indented at least +4 from the original line, unless it falls under the rules of
 block indentation.</p>
 
 <p>When there are multiple continuation lines, indentation may be varied beyond +4
-as appropriate.  In general, continuation lines at a deeper syntactic level are
+as appropriate. In general, continuation lines at a deeper syntactic level are
 indented by larger multiples of 4, and two lines use the same indentation level
 if and only if they begin with syntactically parallel elements.</p>
 
@@ -1050,8 +1051,8 @@ using a variable number of spaces to align certain tokens with previous lines.</
 <ol>
 <li>Between consecutive methods in a class or object literal
 <ol>
-<li>Exception: A blank line between two consecutive properties definitions in
-an object literal (with no other code between them) is optional. Such
+<li>Exception: A blank line between two consecutive properties definitions
+in an object literal (with no other code between them) is optional. Such
 blank lines are used as needed to create <em>logical groupings</em> of fields.</li>
 </ol></li>
 <li>Within method bodies, sparingly to create <em>logical groupings</em> of statements.
@@ -1069,8 +1070,8 @@ encouraged).</p>
 
 <p>Use of horizontal whitespace depends on location, and falls into three broad
 categories: <em>leading</em> (at the start of a line), <em>trailing</em> (at the end of a
-line), and <em>internal</em>.  Leading whitespace (i.e., indentation) is addressed
-elsewhere.  Trailing whitespace is forbidden.</p>
+line), and <em>internal</em>. Leading whitespace (i.e., indentation) is addressed
+elsewhere. Trailing whitespace is forbidden.</p>
 
 <p>Beyond where required by the language or other style rules, and apart from
 literals, comments, and JSDoc, a single internal ASCII space also appears in the
@@ -1107,11 +1108,11 @@ Here, multiple spaces are allowed, but not required.</li>
 variable number of additional spaces in your code with the goal of making
 certain tokens appear directly below certain other tokens on previous lines.</p>
 
-<p>This practice is permitted, but it is <strong>generally discouraged</strong> by Google
-Style. It is not even required to <em>maintain</em> horizontal alignment in places
-where it was already used.</p>
+<p>This practice is permitted, but it is <strong>generally discouraged</strong> by Google Style.
+It is not even required to <em>maintain</em> horizontal alignment in places where it
+was already used.</p>
 
-<p>Here is an example without alignment, followed by one with alignment.  Both are
+<p>Here is an example without alignment, followed by one with alignment. Both are
 allowed, but the latter is discouraged:</p>
 
 <pre><code class="language-js prettyprint good">{
@@ -1127,16 +1128,21 @@ allowed, but the latter is discouraged:</p>
 
 <p>Tip: Alignment can aid readability, but it creates problems for future
 maintenance. Consider a future change that needs to touch just one line. This
-change may leave the formerly-pleasing formatting mangled, and that is
-allowed. More often it prompts the coder (perhaps you) to adjust whitespace on
-nearby lines as well, possibly triggering a cascading series of
-reformattings. That one-line change now has a <q>blast radius.</q> This can at worst
-result in pointless busywork, but at best it still corrupts version history
-information, slows down reviewers and exacerbates merge conflicts.</p>
+change may leave the formerly-pleasing formatting mangled, and that is allowed.
+More often it prompts the coder (perhaps you) to adjust whitespace on nearby
+lines as well, possibly triggering a cascading series of reformattings. That
+one-line change now has a <q>blast radius.</q> This can at worst result in pointless
+busywork, but at best it still corrupts version history information, slows down
+reviewers and exacerbates merge conflicts.</p>
 
 <h4 id="formatting-function-arguments">4.6.4 Function arguments</h4>
 
-<p>Prefer to put all function arguments on the same line as the function name. If doing so would exceed the 80-column limit, the arguments must be line-wrapped in a readable way. To save space, you may wrap as close to 80 as possible, or put each argument on its own line to enhance readability. Indentation should be four spaces. Aligning to the parenthesis is allowed, but discouraged. Below are the most common patterns for argument wrapping:</p>
+<p>Prefer to put all function arguments on the same line as the function name. If
+doing so would exceed the 80-column limit, the arguments must be line-wrapped in
+a readable way. To save space, you may wrap as close to 80 as possible, or put
+each argument on its own line to enhance readability. Indentation should be four
+spaces. Aligning to the parenthesis is allowed, but discouraged. Below are the
+most common patterns for argument wrapping:</p>
 
 <pre><code class="language-js prettyprint good">// Arguments start on a new line, indented four spaces. Preferred when the
 // arguments don't fit on the same line with the function name (or the keyword
@@ -1223,17 +1229,20 @@ Their preferred format is before the value with <q>=</q>:</p>
 
 <h2 id="language-features">5 Language features</h2>
 
-<p>JavaScript includes many dubious (and even dangerous) features.  This section
+<p>JavaScript includes many dubious (and even dangerous) features. This section
 delineates which features may or may not be used, and any additional constraints
 on their use.</p>
+
+<p>Language features which are not discussed in this style guide may be used with
+no recommendations of their usage.</p>
 
 <h3 id="features-local-variable-declarations">5.1 Local variable declarations</h3>
 
 <h4 id="features-use-const-and-let">5.1.1 Use <code>const</code> and <code>let</code></h4>
 
-<p>Declare all local variables with either <code>const</code> or <code>let</code>. Use const by default,
-unless a variable needs to be reassigned. The <code class="badcode">var</code>
-keyword must not be used.</p>
+<p>Declare all local variables with either <code>const</code> or <code>let</code>. Use <code>const</code> by
+default, unless a variable needs to be reassigned. The <code class="badcode">var</code> keyword
+must not be used.</p>
 
 <h4 id="features-one-variable-per-declaration">5.1.2 One variable per declaration</h4>
 
@@ -1244,7 +1253,8 @@ as <code class="badcode">let a = 1, b = 2;</code> are not used.</p>
 
 <p>Local variables are <strong>not</strong> habitually declared at the start of their containing
 block or block-like construct. Instead, local variables are declared close to
-the point they are first used (within reason), to minimize their scope.</p>
+the point they are first used (within reason), to minimize their scope, and
+initialized as soon as possible.</p>
 
 <h4 id="features-declare-types-as-needed">5.1.4 Declare types as needed</h4>
 
@@ -1270,10 +1280,10 @@ const /** !Array&lt;number&gt; */ data = [];
 </code></pre>
 
 <p>Tip: There are many cases where the compiler can infer a templatized type but
-not its parameters.  This is particularly the case when the initializing literal
+not its parameters. This is particularly the case when the initializing literal
 or constructor call does not include any values of the template parameter type
 (e.g., empty arrays, objects, <code>Map</code>s, or <code>Set</code>s), or if the variable is modified
-in a closure.  Local variable type annotations are particularly helpful in these
+in a closure. Local variable type annotations are particularly helpful in these
 cases since otherwise the compiler will infer the template parameter as unknown.</p>
 
 <h3 id="features-array-literals">5.2 Array literals</h3>
@@ -1324,14 +1334,14 @@ allowed when appropriate.</p>
 
 <h4 id="features-arrays-non-numeric-properties">5.2.3 Non-numeric properties</h4>
 
-<p>Do not define or use non-numeric properties on an array (other than
-<code>length</code>). Use a <code>Map</code> (or <code>Object</code>) instead.</p>
+<p>Do not define or use non-numeric properties on an array (other than <code>length</code>).
+Use a <code>Map</code> (or <code>Object</code>) instead.</p>
 
 <h4 id="features-arrays-destructuring">5.2.4 Destructuring</h4>
 
 <p>Array literals may be used on the left-hand side of an assignment to perform
 destructuring (such as when unpacking multiple values from a single array or
-iterable).  A final <q>rest</q> element may be included (with no space between the
+iterable). A final <q>rest</q> element may be included (with no space between the
 <code>...</code> and the variable name). Elements should be omitted if they are unused.</p>
 
 <pre><code class="language-js prettyprint good">const [a, b, c, ...rest] = generateResults();
@@ -1359,8 +1369,8 @@ naming the individual elements and specifying a different type for each.</p>
 <h4 id="features-arrays-spread-operator">5.2.5 Spread operator</h4>
 
 <p>Array literals may include the spread operator (<code>...</code>) to flatten elements out
-of one or more other iterables.  The spread operator should be used instead of
-more awkward constructs with <code>Array.prototype</code>.  There is no space after the
+of one or more other iterables. The spread operator should be used instead of
+more awkward constructs with <code>Array.prototype</code>. There is no space after the
 <code>...</code>.</p>
 
 <p>Example:</p>
@@ -1484,11 +1494,12 @@ to perform destructuring and unpack multiple values from a single object.</p>
 <p>Destructured objects may also be used as function parameters, but should be kept
 as simple as possible: a single level of unquoted shorthand properties. Deeper
 levels of nesting and computed properties may not be used in parameter
-destructuring.  Specify any default values in the left-hand-side of the
-destructured parameter (<code>{str = 'some default'} = {}</code>, rather than <code class="badcode">{str} = {str: 'some default'}</code>), and if a destructured
-object is itself optional, it must default to <code>{}</code>.  The JSDoc for the
-destructured parameter may be given any name (the name is unused but is required
-by the compiler).</p>
+destructuring. Specify any default values in the left-hand-side of the
+destructured parameter (<code>{str = 'some default'} = {}</code>, rather than
+<code class="badcode">{str} = {str: 'some default'}</code>), and if a
+destructured object is itself optional, it must default to <code>{}</code>. The JSDoc for
+the destructured parameter may be given any name (the name is unused but is
+required by the compiler).</p>
 
 <p>Example:</p>
 
@@ -1498,7 +1509,7 @@ by the compiler).</p>
  *     num: The number of times to do something.
  *     str: A string to do stuff to.
  */
-function destructured(ordinary, {num, str = 'some default'} = {})
+function destructured(ordinary, {num, str = 'some default'} = {}) {}
 </code></pre>
 
 <p>Disallowed:</p>
@@ -1520,8 +1531,11 @@ long it is (see <a href="#file-goog-require">??</a>).</p>
 <h4 id="features-objects-enums">5.3.8 Enums</h4>
 
 <p>Enumerations are defined by adding the <code>@enum</code> annotation to an object literal.
-Additional properties may not be added to an enum after it is defined.  Enums
-must be constant, and all enum values must be deeply immutable.</p>
+Enums must be module-local or assigned directly on <code>exports</code>, not nested under a
+type or object.</p>
+
+<p>Additional properties may not be added to an enum after it is defined. Enums
+must be constant. All enum values must be either a string literal or a number.</p>
 
 <pre><code class="language-js prettyprint good">/**
  * Supported temperature scales.
@@ -1533,16 +1547,40 @@ const TemperatureScale = {
 };
 
 /**
- * An enum with two options.
+ * An enum with two values.
  * @enum {number}
  */
-const Option = {
-  /** The option used shall have been the first. */
-  FIRST_OPTION: 1,
-  /** The second among two options. */
-  SECOND_OPTION: 2,
+const Value = {
+  /** The value used shall have been the first. */
+  FIRST_VALUE: 1,
+  /** The second among two values. */
+  SECOND_VALUE: 2,
 };
 </code></pre>
+
+<p>For string enums, all values must be statically initialized and not computed
+using arithmetic operators, template literal substitution, function calls or
+even a variable reference.</p>
+
+<pre><code class="language-js prettyprint bad">const ABSOLUTE_ZERO = '-273°F';
+
+/**
+ * Not supported computed values in string enum.
+ * @enum {string}
+ */
+const TemperatureInFahrenheit = {
+  MIN_POSSIBLE: ABSOLUTE_ZERO,
+  ZERO_FAHRENHEIT: 0 + '°F',
+  ONE_FAHRENHEIT: `${Values.FIRST_VALUE}°F`,
+  TWO_FAHRENHEIT: Values.SECOND_VALUE + '°F',
+  SOME_FAHRENHEIT: getTemperatureInFahrenheit() + '°F',
+};
+</code></pre>
+
+<p>Note: Although TypeScript supports a few more patterns for enum values (e.g <code>A:
+'a'+'b'</code>, etc), the restriction of only allowing string literals and numbers for
+enum values is to aid migration to TypeScript. For complex values consider using
+a const object without <code>@enum</code>. </p>
 
 <h3 id="features-classes">5.4 Classes</h3>
 
@@ -1554,12 +1592,13 @@ non-method properties in the constructor.</p>
 
 <h4 id="features-classes-fields">5.4.2 Fields</h4>
 
-<p>Set all of a concrete object&#8217;s fields (i.e. all properties other than methods)
-in the constructor. Annotate fields that are never reassigned with <code>@const</code>
-(these need not be deeply immutable). Annotate non-public fields with the proper
-visibility annotation (<code>@private</code>, <code>@protected</code>, <code>@package</code>), and end all
-<code>@private</code> fields' names with an underscore. Fields are never set on a concrete
-class' <code>prototype</code>.</p>
+<p>Define all of a concrete object&#8217;s fields (i.e. all properties other than
+methods) in the constructor. Annotate fields that are never reassigned with
+<code>@const</code> (these need not be deeply immutable). Annotate non-public fields with
+the proper visibility annotation (<code>@private</code>, <code>@protected</code>, <code>@package</code>).
+<code>@private</code> fields' names may optionally end with an underscore. Fields must not
+be defined within a nested scope in the constructor nor on a concrete class's
+<code>prototype</code>.</p>
 
 <p>Example:</p>
 
@@ -1576,22 +1615,24 @@ class' <code>prototype</code>.</p>
 
 <p>Tip: Properties should never be added to or removed from an instance after the
 constructor is finished, since it significantly hinders VMs&#8217; ability to
-optimize.  If necessary, fields that are initialized later should be explicitly
+optimize. If necessary, fields that are initialized later should be explicitly
 set to <code>undefined</code> in the constructor to prevent later shape changes. Adding
 <code>@struct</code> to an object will check that undeclared properties are not
-added/accessed.  Classes have this added by default.</p>
+added/accessed. Classes have this added by default.</p>
 
 <h4 id="features-classes-computed-properties">5.4.3 Computed properties</h4>
 
 
 
-<p>Computed properties may only be used in classes when the property is a
-symbol. Dict-style properties (that is, quoted or computed non-symbol keys, as
-defined in <a href="#features-objects-mixing-keys">??</a>) are not allowed.  A
-<code>[Symbol.iterator]</code> method should be defined for any classes that are logically
-iterable.  Beyond this, <code>Symbol</code> should be used sparingly.</p>
+<p>Computed properties may only be used in classes when the property is a symbol.
+Dict-style properties (that is, quoted or computed non-symbol keys, as defined
+in <a href="#features-objects-mixing-keys">??</a>) are not allowed. A <code>[Symbol.iterator]</code>
+method should be defined for any classes that are logically iterable. Beyond
+this, <code>Symbol</code> should be used sparingly.</p>
 
-<p>Tip: be careful of using any other built-in symbols (e.g., <code>Symbol.isConcatSpreadable</code>) as they are not polyfilled by the compiler and will therefore not work in older browsers.</p>
+<p>Tip: be careful of using any other built-in symbols (e.g.,
+<code>Symbol.isConcatSpreadable</code>) as they are not polyfilled by the compiler and will
+therefore not work in older browsers.</p>
 
 <h4 id="features-classes-static-methods">5.4.4 Static methods</h4>
 
@@ -1600,24 +1641,41 @@ iterable.  Beyond this, <code>Symbol</code> should be used sparingly.</p>
 <p>Where it does not interfere with readability, prefer module-local functions over
 private static methods.</p>
 
-<p>Static methods should only be called on the base class itself. Static methods
-should not be called on variables containing a dynamic instance that may be
-either the constructor or a subclass constructor (and must be defined with
-<code>@nocollapse</code> if this is done), and must not be called directly on a subclass
-that doesn&#8217;t define the method itself.</p>
+<p>Code should not rely on dynamic dispatch of static methods, because it
+interferes with Closure Compiler optimizations. Static methods should only be
+called on the base class itself. Static methods should not be called on
+variables containing a dynamic instance that may be either the constructor or a
+subclass constructor (and must be defined with <code>@nocollapse</code> if this is done),
+and must not be called directly on a subclass that doesn&#8217;t define the method
+itself. Do not access <code>this</code> in static methods.</p>
 
 <p>Disallowed:</p>
 
-<pre><code class="language-js prettyprint bad">class Base { /** @nocollapse */ static foo() {} }
+<pre><code class="language-js prettyprint bad">// Context for the examples below; by itself this code is allowed.
+class Base {
+  /** @nocollapse */ static foo() {}
+}
 class Sub extends Base {}
-function callFoo(cls) { cls.foo(); }  // discouraged: don't call static methods dynamically
-Sub.foo();  // Disallowed: don't call static methods on subclasses that don't define it themselves
+
+// discouraged: don't call static methods dynamically
+function callFoo(cls) { cls.foo(); }
+
+// Disallowed: don't call static methods on subclasses that don't define it themselves
+Sub.foo();
+
+// Disallowed: don't access this in static methods.
+class Clazz {
+  static foo() {
+    return this.staticField;
+  }
+}
+Class.staticField = 1;
 </code></pre>
 
 <h4 id="features-classes-old-style">5.4.5 Old-style class declarations</h4>
 
 <p>While ES6 classes are preferred, there are cases where ES6 classes may not be
-feasible.  For example:</p>
+feasible. For example:</p>
 
 <ol>
 <li><p>If there exist or will exist subclasses, including frameworks that create
@@ -1625,8 +1683,8 @@ subclasses, that cannot be immediately changed to use ES6 class syntax. If
 such a class were to use ES6 syntax, all downstream subclasses not using ES6
 class syntax would need to be modified.</p></li>
 <li><p>Frameworks that require a known <code>this</code> value before calling the superclass
-constructor, since constructors with ES6 super classes do not have
-access to the instance <code>this</code> value until the call to <code>super</code> returns.</p></li>
+constructor, since constructors with ES6 super classes do not have access to
+the instance <code>this</code> value until the call to <code>super</code> returns.</p></li>
 </ol>
 
 <p>In all other ways the style guide still applies to this code: <code>let</code>, <code>const</code>,
@@ -1679,9 +1737,13 @@ C.prototype.method = function(param) {
 };
 </code></pre>
 
-<p>Per-instance properties should be defined in the constructor after the call to the super class constructor, if there is a super class.  Methods should be defined on the prototype of the constructor.</p>
+<p>Per-instance properties should be defined in the constructor after the call to
+the super class constructor, if there is a super class. Methods should be
+defined on the prototype of the constructor.</p>
 
-<p>Defining constructor prototype hierarchies correctly is harder than it first appears!  For that reason, it is best to use <code>goog.inherits</code> from <a href="http://code.google.com/closure/library/">the Closure Library </a>.</p>
+<p>Defining constructor prototype hierarchies correctly is harder than it first
+appears! For that reason, it is best to use <code>goog.inherits</code> from
+<a href="http://code.google.com/closure/library/">the Closure Library </a>.</p>
 
 <h4 id="features-classes-prototypes">5.4.6 Do not manipulate <code>prototype</code>s directly</h4>
 
@@ -1691,21 +1753,21 @@ manipulating these objects, though they are still useful for defining classes as
 defined in <a href="#features-classes-old-style">??</a>. Mixins and modifying the
 prototypes of builtin objects are explicitly forbidden.</p>
 
-<p><strong>Exception</strong>: Framework code (such as Polymer, or Angular) may need to use <code>prototype</code>s, and should not
-resort to even-worse workarounds to avoid doing so.</p>
+<p><strong>Exception</strong>: Framework code (such as Polymer, or Angular) may need to use <code>prototype</code>s, and should not resort
+to even-worse workarounds to avoid doing so.</p>
 
 <h4 id="features-classes-getters-and-setters">5.4.7 Getters and Setters</h4>
 
-<p>Do not use <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/get">JavaScript getter and setter properties</a>.  They are potentially
+<p>Do not use <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/get">JavaScript getter and setter properties</a>. They are potentially
 surprising and difficult to reason about, and have limited support in the
-compiler.  Provide ordinary methods instead.</p>
+compiler. Provide ordinary methods instead.</p>
 
 <p><strong>Exception</strong>: there are situations where defining a getter or setter is
 unavoidable (e.g. data binding frameworks such as Angular and Polymer, or for
-compatibility with external APIs that cannot be adjusted).  In these cases only,
+compatibility with external APIs that cannot be adjusted). In these cases only,
 getters and setters may be used <em>with caution</em>, provided they are defined with
 the <code>get</code> and <code>set</code> shorthand method keywords or <code>Object.defineProperties</code> (not
-<code>Object.defineProperty</code>, which interferes with property renaming).  Getters
+<code>Object.defineProperty</code>, which interferes with property renaming). Getters
 <strong>must not</strong> change observable state.</p>
 
 <p>Disallowed:</p>
@@ -1729,8 +1791,9 @@ exceptional conditions could lead to infinite loops.</p>
 with <code>@record</code> can be explicitly (i.e. via <code>@implements</code>) or implicitly
 implemented by a class or object literal.</p>
 
-<p>All non-static method bodies on an interface must be empty blocks. Fields must
-be declared as uninitialized members in the class constructor.</p>
+<p>All methods on an interface must be non-static and method bodies must be empty
+blocks. Fields must be declared as uninitialized members in the class
+constructor.</p>
 
 <p>Example:</p>
 
@@ -1756,8 +1819,96 @@ class Frobnicator {
 <h4 id="features-classes-abstract-classes">5.4.10 Abstract Classes</h4>
 
 <p>Use abstract classes when appropriate. Abstract classes and methods must be
-annotated with <code>@abstract</code>. Do not use <code>goog.abstractMethod</code>. See <a href="https://github.com/google/closure-compiler/wiki/@abstract-classes-and-methods">abstract
-classes and methods</a>.</p>
+annotated with <code>@abstract</code>. Do not use <code>goog.abstractMethod</code>. See
+<a href="https://github.com/google/closure-compiler/wiki/@abstract-classes-and-methods">abstract classes and methods</a>.</p>
+
+<h4 id="static-containers">5.4.11 Do not create static container classes</h4>
+
+<p>Do not use container classes with only static methods or properties for the sake
+of namespacing.</p>
+
+<pre><code class="language-js prettyprint bad">// container.js
+// Bad: Container is an exported class that has only static methods and fields.
+class Container {
+  /** @return {number} */
+  static bar() {
+    return 1;
+  }
+}
+
+/** @const {number} */
+Container.FOO = 1;
+
+exports = {Container};
+</code></pre>
+
+<p>Instead, export individual constants and functions:</p>
+
+<pre><code class="language-js prettyprint good">/** @return {number} */
+exports.bar = () =&gt; {
+  return 1;
+}
+
+/** @const {number} */
+exports.FOO = 1;
+</code></pre>
+
+<h4 id="nested-namespaces">5.4.12 Do not define nested namespaces</h4>
+
+<p>Do not define a nested type (e.g. class, typedef, enum, interface) on another
+module-local name. </p>
+
+<pre><code class="language-js prettyprint bad">// foo.js
+goog.module('my.namespace');
+
+class Foo {...}
+
+Foo.Bar = class {...};
+
+/** @enum {number} */
+Foo.Baz = {...};
+
+/** @typedef {{value: number}} */
+Foo.Qux;
+
+/** @interface */
+Foo.Quuz = class {...}
+
+exports.Foo = Foo;
+</code></pre>
+
+<p>These values should be top-level exports. Choose clear names for these values
+(e.g. FooConverter for a Converter that could have been nested on Foo). However,
+when the module name is redundant with part of the class name, consider omitting
+the redundancy: <code>foo.Foo</code> and <code>foo.Converter</code> rather than <code>foo.Foo</code> and
+<code>foo.FooConverter</code>. Importers can add the prefix when necessary for clarity
+(e.g. <code>import {Converter as FooConverter} from './foo';</code>) but cannot easily
+remove the redundancy when importing the entire module as a namespace.</p>
+
+<pre><code class="language-js prettyprint good">// foo.js
+goog.module('my.namespace');
+
+class Foo {...}
+
+class FooBar {...}
+
+/** @enum {string} */
+let FooBaz = {...};
+
+/** @typedef {{value: number}} */
+let FooQux;
+
+/** @interface */
+class FooQuuz {...};
+
+export = {
+  Foo,
+  FooBar,
+  FooBaz,
+  FooQux,
+  FooQuuz,
+};
+</code></pre>
 
 <h3 id="features-functions">5.5 Functions</h3>
 
@@ -1785,15 +1936,14 @@ exports = {processString};
 
 <h4 id="features-functions-nested-functions">5.5.2 Nested functions and closures</h4>
 
-<p>Functions may contain nested function definitions.  If it is useful to give the
+<p>Functions may contain nested function definitions. If it is useful to give the
 function a name, it should be assigned to a local <code>const</code>.</p>
 
 <h4 id="features-functions-arrow-functions">5.5.3 Arrow functions</h4>
 
 <p>Arrow functions provide a concise function syntax and simplify scoping <code>this</code>
-for nested functions. Prefer arrow functions over the <code>function</code> keyword,
-particularly for nested functions (but see
-<a href="#features-objects-method-shorthand">??</a>).</p>
+for nested functions. Prefer arrow functions over the <code>function</code> keyword for
+nested functions (but see <a href="#features-objects-method-shorthand">??</a>).</p>
 
 <p>Prefer arrow functions over other <code>this</code> scoping approaches such as
 <code>f.bind(this)</code>, <code>goog.bind(f, this)</code>, and <code>const self = this</code>. Arrow functions
@@ -1863,7 +2013,7 @@ const moduleLocalFunc = () =&gt; anotherFunction();
 <p>Generators enable a number of useful abstractions and may be used as needed.</p>
 
 <p>When defining generator functions, attach the <code>*</code> to the <code>function</code> keyword when
-present, and separate it with a space from the name of the function.  When using
+present, and separate it with a space from the name of the function. When using
 delegating yields, attach the <code>*</code> to the <code>yield</code> keyword.</p>
 
 <p>Example:</p>
@@ -1922,8 +2072,8 @@ class MyInterface {
 </code></pre>
 
 <p>Use default parameters sparingly. Prefer destructuring (as in
-<a href="#features-objects-destructuring">??</a>) to create readable APIs when there
-are more than a small handful of optional parameters that do not have a natural
+<a href="#features-objects-destructuring">??</a>) to create readable APIs when there are
+more than a small handful of optional parameters that do not have a natural
 order.</p>
 
 <p>Note: Unlike Python's default parameters, it is okay to use initializers that
@@ -1941,7 +2091,7 @@ coupling between function calls.</p>
 <p>Use a <em>rest</em> parameter instead of accessing <code>arguments</code>. Rest parameters are
 typed with a <code>...</code> prefix in their JSDoc. The rest parameter must be the last
 parameter in the list. There is no space between the <code>...</code> and the parameter
-name.  Do not name the rest parameter <code>var_args</code>. Never name a local variable or
+name. Do not name the rest parameter <code>var_args</code>. Never name a local variable or
 parameter <code>arguments</code>, which confusingly shadows the built-in name.</p>
 
 <p>Example:</p>
@@ -1960,9 +2110,9 @@ the JSDoc above the function or method definition.</p>
 
 <h4 id="features-functions-spread-operator">5.5.7 Spread operator</h4>
 
-<p>Function calls may use the spread operator (<code>...</code>).  Prefer the spread operator
+<p>Function calls may use the spread operator (<code>...</code>). Prefer the spread operator
 to <code>Function.prototype.apply</code> when an array or iterable is unpacked into
-multiple parameters of a variadic function.  There is no space after the <code>...</code>.</p>
+multiple parameters of a variadic function. There is no space after the <code>...</code>.</p>
 
 <p>Example:</p>
 
@@ -2026,37 +2176,37 @@ after the slash, and is less obvious to readers.</p>
 
 <h3 id="features-number-literals">5.7 Number literals</h3>
 
-<p>Numbers may be specified in decimal, hex, octal, or binary.  Use exactly <code>0x</code>,
+<p>Numbers may be specified in decimal, hex, octal, or binary. Use exactly <code>0x</code>,
 <code>0o</code>, and <code>0b</code> prefixes, with lowercase letters, for hex, octal, and binary,
-respectively.  Never include a leading zero unless it is immediately followed by
+respectively. Never include a leading zero unless it is immediately followed by
 <code>x</code>, <code>o</code>, or <code>b</code>.</p>
 
 <h3 id="features-control-structures">5.8 Control structures</h3>
 
 <h4 id="features-for-loops">5.8.1 For loops</h4>
 
-<p>With ES6, the language now has three different kinds of <code>for</code> loops.  All may be
+<p>With ES6, the language now has three different kinds of <code>for</code> loops. All may be
 used, though <code>for</code>-<code>of</code> loops should be preferred when possible.</p>
 
 <p><code>for</code>-<code>in</code> loops may only be used on dict-style objects (see
 <a href="#features-objects-mixing-keys">??</a>), and should not be used to iterate over an
-array.  <code>Object.prototype.hasOwnProperty</code> should be used in <code>for</code>-<code>in</code> loops to
-exclude unwanted prototype properties.  Prefer <code>for</code>-<code>of</code> and <code>Object.keys</code> over
+array. <code>Object.prototype.hasOwnProperty</code> should be used in <code>for</code>-<code>in</code> loops to
+exclude unwanted prototype properties. Prefer <code>for</code>-<code>of</code> and <code>Object.keys</code> over
 <code>for</code>-<code>in</code> when possible.</p>
 
 <h4 id="features-exceptions">5.8.2 Exceptions</h4>
 
 <p>Exceptions are an important part of the language and should be used whenever
-exceptional cases occur.  Always throw <code>Error</code>s or subclasses of <code>Error</code>: never
-throw string literals or other objects.  Always use <code>new</code> when constructing an
+exceptional cases occur. Always throw <code>Error</code>s or subclasses of <code>Error</code>: never
+throw string literals or other objects. Always use <code>new</code> when constructing an
 <code>Error</code>.</p>
 
 <p>This treatment extends to <code>Promise</code> rejection values as <code>Promise.reject(obj)</code> is
 equivalent to <code>throw obj;</code> in async functions.</p>
 
 <p>Custom exceptions provide a great way to convey additional error information
-from functions.  They should be defined and used wherever the native <code>Error</code>
-type is insufficient.</p>
+from functions. They should be defined and used wherever the native <code>Error</code> type
+is insufficient.</p>
 
 <p>Prefer throwing exceptions over ad-hoc error-handling approaches (such as
 passing an error container reference type, or returning an object with an error
@@ -2090,16 +2240,18 @@ since this will catch the error thrown by <code>fail</code>. Use <code>assertThr
 
 <h4 id="features-switch-statements">5.8.3 Switch statements</h4>
 
-<p>Terminology Note: Inside the braces of a switch block are one or more statement groups. Each statement group consists of one or more switch labels (either <code>case FOO:</code> or <code>default:</code>), followed by one or more statements.</p>
+<p>Terminology Note: Inside the braces of a switch block are one or more statement
+groups. Each statement group consists of one or more switch labels (either <code>case
+FOO:</code> or <code>default:</code>), followed by one or more statements.</p>
 
 <h5 id="features-switch-fall-through">5.8.3.1 Fall-through: commented</h5>
 
 <p>Within a switch block, each statement group either terminates abruptly (with a
 <code>break</code>, <code>return</code> or <code>throw</code>n exception), or is marked with a comment to
-indicate that execution will or might continue into the next statement
-group. Any comment that communicates the idea of fall-through is sufficient
-(typically <code>// fall through</code>). This special comment is not required in the last
-statement group of the switch block.</p>
+indicate that execution will or might continue into the next statement group.
+Any comment that communicates the idea of fall-through is sufficient (typically
+<code>// fall through</code>). This special comment is not required in the last statement
+group of the switch block.</p>
 
 <p>Example:</p>
 
@@ -2149,14 +2301,14 @@ target of an event, or unnecessarily <code>call()</code>ed or <code>apply()</cod
 
 <h4 id="disallowed-features-with">5.11.1 with</h4>
 
-<p>Do not use the <code>with</code> keyword.  It makes your code harder to understand and has
+<p>Do not use the <code>with</code> keyword. It makes your code harder to understand and has
 been banned in strict mode since ES5.</p>
 
 <h4 id="disallowed-features-dynamic-code-evaluation">5.11.2 Dynamic code evaluation</h4>
 
 <p>Do not use <code>eval</code> or the <code>Function(...string)</code> constructor (except for code
-loaders).  These features are potentially dangerous and simply do not work in
-CSP environments.</p>
+loaders). These features are potentially dangerous and simply do not work in CSP
+environments.</p>
 
 <h4 id="disallowed-features-automatic-semicolon-insertion">5.11.3 Automatic semicolon insertion</h4>
 
@@ -2165,13 +2317,13 @@ declarations, as noted above).</p>
 
 <h4 id="disallowed-features-non-standard-features">5.11.4 Non-standard features</h4>
 
-<p>Do not use non-standard features.  This includes old features that have been
+<p>Do not use non-standard features. This includes old features that have been
 removed (e.g., <code>WeakMap.clear</code>), new features that are not yet standardized
 (e.g., the current TC39 working draft, proposals at any stage, or proposed but
 not-yet-complete web standards), or proprietary features that are only
-implemented in some browsers.  Use only features defined in the current ECMA-262
-or WHATWG standards.  (Note that projects writing against specific APIs, such as
-Chrome extensions or Node.js, can obviously use those APIs).  Non-standard
+implemented in some browsers. Use only features defined in the current ECMA-262
+or WHATWG standards. (Note that projects writing against specific APIs, such as
+Chrome extensions or Node.js, can obviously use those APIs). Non-standard
 language &#8220;extensions&#8221; (such as those provided by some external transpilers) are
 forbidden.</p>
 
@@ -2198,12 +2350,12 @@ if (!x) alert(typeof x);  // alerts 'boolean', as expected
 <h4 id="disallowed-features-modifying-builtin-objects">5.11.6 Modifying builtin objects</h4>
 
 <p>Never modify builtin types, either by adding methods to their constructors or to
-their prototypes.  Avoid depending on libraries that do this.  Note that the
+their prototypes. Avoid depending on libraries that do this. Note that the
 JSCompiler&#8217;s runtime library will provide standards-compliant polyfills where
 possible; nothing else may modify builtin objects.</p>
 
-<p>Do not add symbols to the global object unless absolutely necessary
-(e.g. required by a third-party API).</p>
+<p>Do not add symbols to the global object unless absolutely necessary (e.g.
+required by a third-party API).</p>
 
 <h4 id="disallowed-features-omitting-parents-with-new">5.11.7 Omitting <code>()</code> when invoking a constructor</h4>
 
@@ -2257,30 +2409,37 @@ cstmrId             // Deletes internal letters.
 kSecondsPerDay      // Do not use Hungarian notation.
 </code></pre>
 
+<p><strong>Exception</strong>: Variables that are in scope for 10 lines or fewer, including
+arguments that are <em>not</em> part of an exported API, <em>may</em> use short (e.g. single
+letter) variable names.</p>
+
 <h3 id="naming-rules-by-identifier-type">6.2 Rules by identifier type</h3>
 
 <h4 id="naming-package-names">6.2.1 Package names</h4>
 
-<p>Package names are all <code>lowerCamelCase</code>. For example,
-<code>my.exampleCode.deepSpace</code>, but not <code class="badcode">my.examplecode.deepspace</code> or <code class="badcode">my.example_code.deep_space</code>.</p>
+<p>Package names are all <code>lowerCamelCase</code>. For example, <code>my.exampleCode.deepSpace</code>,
+but not <code class="badcode">my.examplecode.deepspace</code> or
+<code class="badcode">my.example_code.deep_space</code>.</p>
+
+<p><strong>Exception</strong>: The package name may conform to TypeScript's path-based pattern. This is
+typically all lower case with underscores where present in filenames.</p>
 
 <h4 id="naming-class-names">6.2.2 Class names</h4>
 
 <p>Class, interface, record, and typedef names are written in <code>UpperCamelCase</code>.
-Unexported classes are simply locals: they are not marked <code>@private</code> and
-therefore are not named with a trailing underscore.</p>
+Unexported classes are simply locals: they are not marked <code>@private</code>.</p>
 
 <p>Type names are typically nouns or noun phrases. For example, <code>Request</code>,
-<code>ImmutableList</code>, or <code>VisibilityMode</code>.  Additionally, interface names may
+<code>ImmutableView</code>, or <code>VisibilityMode</code>. Additionally, interface names may
 sometimes be adjectives or adjective phrases instead (for example, <code>Readable</code>).</p>
 
 <h4 id="naming-method-names">6.2.3 Method names</h4>
 
-<p>Method names are written in <code>lowerCamelCase</code>. Names for <code>@private</code> methods must
-end with a trailing underscore.</p>
+<p>Method names are written in <code>lowerCamelCase</code>. Names for <code>@private</code> methods may
+optionally end with a trailing underscore.</p>
 
 <p>Method names are typically verbs or verb phrases. For example, <code>sendMessage</code> or
-<code>stop_</code>.  Getter and setter methods for properties are never required, but if
+<code>stop_</code>. Getter and setter methods for properties are never required, but if
 they are used they should be named <code>getFoo</code> (or optionally <code>isFoo</code> or <code>hasFoo</code>
 for booleans), or <code>setFoo(value)</code> for setters.</p>
 
@@ -2292,7 +2451,7 @@ components of the name. One typical pattern is
 <h4 id="naming-enum-names">6.2.4 Enum names</h4>
 
 <p>Enum names are written in <code>UpperCamelCase</code>, similar to classes, and should
-generally be singular nouns.  Individual items within the enum are named in
+generally be singular nouns. Individual items within the enum are named in
 <code>CONSTANT_CASE</code>.</p>
 
 <h4 id="naming-constant-names">6.2.5 Constant names</h4>
@@ -2315,16 +2474,25 @@ intending to never mutate the object is generally not enough.</p>
 
 <pre><code class="language-js prettyprint good">// Constants
 const NUMBER = 5;
-/** @const */ exports.NAMES = ImmutableList.of('Ed', 'Ann');
+/** @const */ exports.NAMES = goog.debug.freeze(['Ed', 'Ann']);
 /** @enum */ exports.SomeEnum = { ENUM_CONSTANT: 'value' };
 
 // Not constants
 let letVariable = 'non-const';
-class MyClass { constructor() { /** @const {string} */ this.nonStatic = 'non-static'; } };
-/** @type {string} */ MyClass.staticButMutable = 'not @const, can be reassigned';
+
+class MyClass {
+  constructor() { /** @const {string} */ this.nonStatic = 'non-static'; }
+};
+/** @type {string} */
+MyClass.staticButMutable = 'not @const, can be reassigned';
+
 const /** Set&lt;string&gt; */ mutableCollection = new Set();
-const /** ImmutableSet&lt;SomeMutableType&gt; */ mutableElements = ImmutableSet.of(mutable);
-const Foo = goog.require('my.Foo');  // mirrors imported name
+
+const /** MyImmutableContainer&lt;SomeMutableType&gt; */ stillMutable =
+    new MyImmutableContainer(mutableInner);
+
+const {Foo} = goog.require('my.foo');  // mirrors imported name
+
 const logger = log.getLogger('loggers.are.not.immutable');
 </code></pre>
 
@@ -2333,9 +2501,9 @@ const logger = log.getLogger('loggers.are.not.immutable');
 <h5 id="naming-local-aliases">6.2.5.2 Local aliases</h5>
 
 <p>Local aliases should be used whenever they improve readability over
-fully-qualified names.  Follow the same rules as <code>goog.require</code>s
+fully-qualified names. Follow the same rules as <code>goog.require</code>s
 (<a href="#file-goog-require">??</a>), maintaining the last part of the aliased name.
-Aliases may also be used within functions.  Aliases must be <code>const</code>.</p>
+Aliases may also be used within functions. Aliases must be <code>const</code>.</p>
 
 <p>Examples:</p>
 
@@ -2347,21 +2515,21 @@ const {assert, assertInstanceof} = asserts;
 <h4 id="naming-non-constant-field-names">6.2.6 Non-constant field names</h4>
 
 <p>Non-constant field names (static or otherwise) are written in <code>lowerCamelCase</code>,
-with a trailing underscore for private fields.</p>
+with an optional trailing underscore for private fields.</p>
 
 <p>These names are typically nouns or noun phrases. For example, <code>computedValues</code>
 or <code>index_</code>.</p>
 
 <h4 id="naming-parameter-names">6.2.7 Parameter names</h4>
 
-<p>Parameter names are written in <code>lowerCamelCase</code>.  Note that this applies even if
+<p>Parameter names are written in <code>lowerCamelCase</code>. Note that this applies even if
 the parameter expects a constructor.</p>
 
 <p>One-character parameter names should not be used in public methods.</p>
 
 <p><strong>Exception</strong>: When required by a third-party framework, parameter names may
-begin with a <code>$</code>.  This exception does not apply to any other identifiers
-(e.g. local variables or properties).</p>
+begin with a <code>$</code>. This exception does not apply to any other identifiers (e.g.
+local variables or properties).</p>
 
 <h4 id="naming-local-variable-names">6.2.8 Local variable names</h4>
 
@@ -2378,8 +2546,8 @@ identifiers, and must be all-caps, such as <code>TYPE</code> or <code>THIS</code
 <h4 id="naming-module-local-names">6.2.10 Module-local names</h4>
 
 <p>Module-local names that are not exported are implicitly private. They are not
-marked <code>@private</code> and do not end in an underscore. This applies to classes,
-functions, variables, constants, enums, and other module-local identifiers.</p>
+marked <code>@private</code>. This applies to classes, functions, variables, constants,
+enums, and other module-local identifiers.</p>
 
 <h3 id="naming-camel-case-defined">6.3 Camel case: defined</h3>
 
@@ -2405,15 +2573,15 @@ recommendation does not apply.</li>
 <li>Now lowercase everything (including acronyms), then uppercase only the first
 character of:
 <ol>
-<li>&#8230; each word, to yield upper camel case, or</li>
-<li>&#8230; each word except the first, to yield lower camel case</li>
+<li>&#8230; each word, to yield <code>UpperCamelCase</code>, or</li>
+<li>&#8230; each word except the first, to yield <code>lowerCamelCase</code></li>
 </ol></li>
 <li>Finally, join all the words into a single identifier.</li>
 </ol>
 
 <p>Note that the casing of the original words is almost entirely disregarded.</p>
 
-<p>Examples:</p>
+<p>Examples of <code>lowerCamelCase</code>:</p>
 
 <table>
 <thead>
@@ -2427,39 +2595,44 @@ character of:
 <tbody>
 <tr>
 <td style="text-align: center"><q>XML HTTP request</q></td>
-<td style="text-align: center">XmlHttpRequest</td>
-<td style="text-align: center">XMLHTTPRequest</td>
+<td style="text-align: center"><code>xmlHttpRequest</code></td>
+<td style="text-align: center"><code>XMLHTTPRequest</code></td>
 </tr>
 <tr>
 <td style="text-align: center"><q>new customer ID</q></td>
-<td style="text-align: center">newCustomerId</td>
-<td style="text-align: center">newCustomerID</td>
+<td style="text-align: center"><code>newCustomerId</code></td>
+<td style="text-align: center"><code>newCustomerID</code></td>
 </tr>
 <tr>
 <td style="text-align: center"><q>inner stopwatch</q></td>
-<td style="text-align: center">innerStopwatch</td>
-<td style="text-align: center">innerStopWatch</td>
+<td style="text-align: center"><code>innerStopwatch</code></td>
+<td style="text-align: center"><code>innerStopWatch</code></td>
 </tr>
 <tr>
 <td style="text-align: center"><q>supports IPv6 on iOS?</q></td>
-<td style="text-align: center">supportsIpv6OnIos</td>
-<td style="text-align: center">supportsIPv6OnIOS</td>
+<td style="text-align: center"><code>supportsIpv6OnIos</code></td>
+<td style="text-align: center"><code>supportsIPv6OnIOS</code></td>
 </tr>
 <tr>
 <td style="text-align: center"><q>YouTube importer</q></td>
-<td style="text-align: center">YouTubeImporter</td>
-<td style="text-align: center">YoutubeImporter*</td>
+<td style="text-align: center"><code>youTubeImporter</code></td>
+<td style="text-align: center"><code>youtubeImporter</code>*</td>
 </tr>
 </tbody>
 </table>
 
 <p>*Acceptable, but not recommended.</p>
 
-<p>Note: Some words are ambiguously hyphenated in the English language: for example <q>nonempty</q> and <q>non-empty</q> are both correct, so the method names checkNonempty and checkNonEmpty are likewise both correct.</p>
+<p>For examples of <code>UpperCamelCase</code>, uppercase the first letter of each correct
+<code>lowerCamelCase</code> example.</p>
+
+<p>Note: Some words are ambiguously hyphenated in the English language: for example
+<q>nonempty</q> and <q>non-empty</q> are both correct, so the method names <code>checkNonempty</code>
+and <code>checkNonEmpty</code> are likewise both correct.</p>
 
 <h2 id="jsdoc">7 JSDoc</h2>
 
-<p><a href="https://developers.google.com/closure/compiler/docs/js-for-compiler">JSDoc</a> is used on all classes, fields, and methods.</p>
+<p><a href="https://github.com/google/closure-compiler/wiki/Annotating-JavaScript-for-the-Closure-Compiler">JSDoc</a> is used on all classes, fields, and methods.</p>
 
 <h3 id="jsdoc-general-form">7.1 General form</h3>
 
@@ -2483,7 +2656,7 @@ this.foo_ = foo;
 multi-line style with <code>/**</code> and <code>*/</code> on their own lines.</p>
 
 <p>Many tools extract metadata from JSDoc comments to perform code validation and
-optimization.  As such, these comments <strong>must</strong> be well-formed.</p>
+optimization. As such, these comments <strong>must</strong> be well-formed.</p>
 
 <h3 id="jsdoc-markdown">7.2 Markdown</h3>
 
@@ -2518,8 +2691,8 @@ ignore plain text formatting, so if you did this:</p>
 
 <h3 id="jsdoc-tags">7.3 JSDoc tags</h3>
 
-<p>Google style allows a subset of JSDoc tags.  See
-<a href="#appendices-jsdoc-tag-reference">??</a> for the complete list.  Most tags must
+<p>Google style allows a subset of JSDoc tags. See
+<a href="#appendices-jsdoc-tag-reference">??</a> for the complete list. Most tags must
 occupy their own line, with the tag at the beginning of the line.</p>
 
 <p>Disallowed:</p>
@@ -2537,7 +2710,7 @@ optional type when appropriate.</p>
 
 <pre><code class="language-js prettyprint good">/**
  * Place more complex annotations (like "implements" and "template")
- * on their own lines.  Multiple simple tags (like "export" and "final")
+ * on their own lines. Multiple simple tags (like "export" and "final")
  * may be combined in one line.
  * @export @final
  * @implements {Iterable&lt;TYPE&gt;}
@@ -2559,12 +2732,12 @@ class MyClass {
 consistent.</p>
 
 <p>For general information about annotating types in JavaScript see
-<a href="https://github.com/google/closure-compiler/wiki/Annotating-JavaScript-for-the-Closure-Compiler">Annotating JavaScript for the Closure Compiler</a> and <a href="https://github.com/google/closure-compiler/wiki/Types-in-the-Closure-Type-System">Types in the Closure Type
-System</a>.</p>
+<a href="https://github.com/google/closure-compiler/wiki/Annotating-JavaScript-for-the-Closure-Compiler">Annotating JavaScript for the Closure Compiler</a> and
+<a href="https://github.com/google/closure-compiler/wiki/Types-in-the-Closure-Type-System">Types in the Closure Type System</a>.</p>
 
 <h3 id="jsdoc-line-wrapping">7.4 Line wrapping</h3>
 
-<p>Line-wrapped block tags are indented four spaces.  Wrapped description text may
+<p>Line-wrapped block tags are indented four spaces. Wrapped description text may
 be lined up with the description on previous lines, but this horizontal
 alignment is discouraged.</p>
 
@@ -2584,8 +2757,9 @@ exports.method = function(foo) {
 
 <h3 id="jsdoc-top-file-level-comments">7.5 Top/file-level comments</h3>
 
-<p>A file may have a top-level file overview. A copyright notice , author information, and
-default <a href="#jsdoc-visibility-annotations">visibility level</a> are optional.  File overviews are generally recommended whenever a
+<p>A file may have a top-level file overview. A copyright notice, author information,
+and default <a href="#jsdoc-visibility-annotations">visibility level</a> are optional.
+File overviews are generally recommended whenever a
 file consists of more than a single class definition. The top level comment is
 designed to orient readers unfamiliar with the code to what is in this file. If
 present, it may provide a description of the file's contents and any
@@ -2607,9 +2781,10 @@ template parameters, implemented interfaces, visibility, or other appropriate
 tags. The class description should provide the reader with enough information to
 know how and when to use the class, as well as any additional considerations
 necessary to correctly use the class. Textual descriptions may be omitted on the
-constructor. <code>@constructor</code> and <code>@extends</code> annotations are not used with the
-<code>class</code> keyword unless the class is being used to declare an <code>@interface</code> or
-it extends a generic class.</p>
+constructor. When defining a class <code>@constructor</code> and <code>@extends</code> annotations are
+not used with the <code>class</code> keyword unless it extends a generic class. When
+defining an <code>@interface</code> or a <code>@record</code>, the <code>@extends</code> annotation is used when
+defining a subclass and the <code>extends</code> keyword is never used.</p>
 
 <pre><code class="language-js prettyprint good">/**
  * A fancier event target that does cool things.
@@ -2664,18 +2839,17 @@ const BandersnatchType = {
 </code></pre>
 
 <p>Typedefs are useful for defining short record types, or aliases for unions,
-complex functions, or generic types.
-Typedefs should be avoided for record types with many fields, since they do not
-allow documenting individual fields, nor using templates or recursive
-references.
-For large record types, prefer <code>@record</code>.</p>
+complex functions, or generic types. Typedefs should be avoided for record types
+with many fields, since they do not allow documenting individual fields, nor
+using templates or recursive references. For large record types, prefer
+<code>@record</code>.</p>
 
 <h3 id="jsdoc-method-and-function-comments">7.8 Method and function comments</h3>
 
 <p>In methods and named functions, parameter and return types must be documented,
-except in the case of same-signature <code>@override</code>s, where all types are omitted.
-The <code>this</code> type should be documented when necessary. Return type may be omitted
-if the function has no non-empty <code>return</code> statements.</p>
+even in the case of same-signature <code>@override</code>s. The <code>this</code> type should be
+documented when necessary. Return type may be omitted if the function has no
+non-empty <code>return</code> statements.</p>
 
 <p>Method, parameter, and return descriptions (but not types) may be omitted if
 they are obvious from the rest of the method&#8217;s JSDoc or from its signature.</p>
@@ -2685,10 +2859,9 @@ does. This phrase is not an imperative sentence, but instead is written in the
 third person, as if there is an implied <q>This method ...</q> before it.</p>
 
 <p>If a method overrides a superclass method, it must include an <code>@override</code>
-annotation. Overridden methods inherit all JSDoc annotations from the super
-class method (including visibility annotations) and they should be omitted in
-the overridden method. However, if any type is refined in type annotations, all
-<code>@param</code> and <code>@return</code> annotations must be specified explicitly.</p>
+annotation. For overridden methods, all <code>@param</code> and <code>@return</code> annotations must
+be specified explicitly even if no type from the superclass method is refined.
+This is to align with TypeScript.</p>
 
 <pre><code class="language-js prettyprint good">/** A class that does something. */
 class SomeClass extends SomeBaseClass {
@@ -2701,7 +2874,11 @@ class SomeClass extends SomeBaseClass {
    */
   someMethod(obj, obviousOtherClass) { ... }
 
-  /** @override */
+  /**
+   * @param {string} param
+   * @return {string}
+   * @override
+   */
   overriddenMethod(param) { ... }
 }
 
@@ -2740,7 +2917,9 @@ class MyClass {
   /** @return {string} */ foo() {...}
 }
 
-/** Function description. */ bar() {...}
+/** No function description allowed inline here. */ function bar() {...}
+
+function /** Function description is also illegal here. */ baz() {...}
 </code></pre>
 
 
@@ -2795,8 +2974,8 @@ MyClass.RETRY_COUNT = 33;
 <h3 id="jsdoc-type-annotations">7.10 Type annotations</h3>
 
 <p>Type annotations are found on <code>@param</code>, <code>@return</code>, <code>@this</code>, and <code>@type</code> tags,
-and optionally on <code>@const</code>, <code>@export</code>, and any visibility tags.  Type
-annotations attached to JSDoc tags must always be enclosed in braces.</p>
+and optionally on <code>@const</code>, <code>@export</code>, and any visibility tags. Type annotations
+attached to JSDoc tags must always be enclosed in braces.</p>
 
 <h4 id="jsdoc-nullability">7.10.1 Nullability</h4>
 
@@ -2847,9 +3026,9 @@ const /** ?SomeCamelCaseName */ n = ...;
 <p>In cases where the compiler doesn't accurately infer the type of an expression,
 and the assertion functions in
 <a href="https://google.github.io/closure-library/api/goog.asserts.html">goog.asserts</a>
-cannot remedy it , it is possible to
-tighten the type by adding a type annotation comment and enclosing the
-expression in parentheses. Note that the parentheses are required.</p>
+cannot remedy it, it is
+possible to tighten the type by adding a type annotation comment and enclosing
+the expression in parentheses. Note that the parentheses are required.</p>
 
 <pre><code class="language-js prettyprint good">/** @type {number} */ (x)
 </code></pre>
@@ -2975,9 +3154,9 @@ annotations.</p>
 <h3 id="jsdoc-visibility-annotations">7.11 Visibility annotations</h3>
 
 <p>Visibility annotations (<code>@private</code>, <code>@package</code>, <code>@protected</code>) may be specified
-in a <code>@fileoverview</code> block, or on any exported symbol or property.  Do not
+in a <code>@fileoverview</code> block, or on any exported symbol or property. Do not
 specify visibility for local variables, whether within a function or at the top
-level of a module.  All <code>@private</code> names must end with an underscore.</p>
+level of a module. <code>@private</code> names may optionally end with an underscore.</p>
 
 <h2 id="policies">8 Policies</h2>
 
@@ -2992,9 +3171,8 @@ package.</p>
 
 <h4 id="policies-use-a-standard-warning-set">8.2.1 Use a standard warning set</h4>
 
-<p>
-As far as possible projects should use <code>--warning_level=VERBOSE</code>.
-</p>
+<p>As far as possible projects should use
+<code>--warning_level=VERBOSE</code>.</p>
 
 <h4 id="policies-how-to-handle-a-warning">8.2.2 How to handle a warning</h4>
 
@@ -3012,14 +3190,17 @@ the situation entirely.</li>
 the warning is invalid and that the code is actually safe and correct, add a
 comment to convince the reader of this fact and apply the <code>@suppress</code>
 annotation.</li>
-<li><strong>Otherwise, leave a TODO comment.</strong> This is a <strong>last resort</strong>.  If you do
-this, <strong>do not suppress the warning.</strong> The warning should be visible until
-it can be taken care of properly.</li>
+<li><strong>Otherwise, leave a TODO comment.</strong> This is a <strong>last resort</strong>.
+ If you do this, <strong>do
+not suppress the warning.</strong> The warning should be visible until it can be
+taken care of properly.</li>
 </ol>
 
 <h4 id="policies-suppress-a-warning-at-the-narrowest-reasonable-scope">8.2.3 Suppress a warning at the narrowest reasonable scope</h4>
 
-<p>Warnings are suppressed at the narrowest reasonable scope, usually that of a single local variable or very small method. Often a variable or method is extracted for that reason alone.</p>
+<p>Warnings are suppressed at the narrowest reasonable scope, usually that of a
+single local variable or very small method. Often a variable or method is
+extracted for that reason alone.</p>
 
 <p>Example</p>
 
@@ -3052,9 +3233,9 @@ for any other reason.</p>
 
 <ol>
 <li>It is not required to change all existing code to meet current style
-guidelines.  Reformatting existing code is a trade-off between code churn
-and consistency. Style rules evolve over time and these kinds of tweaks to
-maintain compliance would create unnecessary churn.  However, if significant
+guidelines. Reformatting existing code is a trade-off between code churn and
+consistency. Style rules evolve over time and these kinds of tweaks to
+maintain compliance would create unnecessary churn. However, if significant
 changes are being made to a file it is expected that the file will be in
 Google Style.</li>
 <li>Be careful not to allow opportunistic style fixes to muddle the focus of a
@@ -3095,26 +3276,22 @@ to avoid conflicts with hand-written identifiers.</p>
 
 <h3 id="appendices-jsdoc-tag-reference">9.1 JSDoc tag reference</h3>
 
-<p>JSDoc serves multiple purposes in JavaScript.  In addition to being used to
-generate documentation it is also used to control tooling.  The best known are
+<p>JSDoc serves multiple purposes in JavaScript. In addition to being used to
+generate documentation it is also used to control tooling. The best known are
 the Closure Compiler type annotations.</p>
 
 <h4 id="appendices-type-annotations">9.1.1 Type annotations and other Closure Compiler annotations</h4>
 
 <p>Documentation for JSDoc used by the Closure Compiler is described in
-<a href="https://github.com/google/closure-compiler/wiki/Annotating-JavaScript-for-the-Closure-Compiler">Annotating JavaScript for the Closure Compiler</a> and <a href="https://github.com/google/closure-compiler/wiki/Types-in-the-Closure-Type-System">Types in the Closure Type
-System</a>.</p>
+<a href="https://github.com/google/closure-compiler/wiki/Annotating-JavaScript-for-the-Closure-Compiler">Annotating JavaScript for the Closure Compiler</a> and
+<a href="https://github.com/google/closure-compiler/wiki/Types-in-the-Closure-Type-System">Types in the Closure Type System</a>.</p>
 
 <h4 id="appendices-documentation-annotations">9.1.2 Documentation annotations</h4>
 
-<p>In addition to the JSDoc described in <a href="https://github.com/google/closure-compiler/wiki/Annotating-JavaScript-for-the-Closure-Compiler">Annotating JavaScript for the Closure
-Compiler</a> the following tags are common and well supported by various
-documentation generation tools (such as <a href="https://github.com/jleyba/js-dossier">JsDossier</a>) for purely documentation
-purposes.</p>
-
-<p>You may also see other types of JSDoc annotations in third-party code. These
-annotations appear in the <a href="http://code.google.com/p/jsdoc-toolkit/wiki/TagReference">JSDoc Toolkit Tag Reference</a> but are not considered
-part of valid Google style.</p>
+<p>In addition to the JSDoc described in
+<a href="https://github.com/google/closure-compiler/wiki/Annotating-JavaScript-for-the-Closure-Compiler">Annotating JavaScript for the Closure Compiler</a> the following tags are common
+and well supported by various documentation generation tools (such as
+<a href="https://github.com/jleyba/js-dossier">JsDossier</a>) for purely documentation purposes.</p>
 
 <section class="zippy">
 
@@ -3257,6 +3434,10 @@ class ApplicationEvent {}
 
 </section>
 
+<p>You may also see other types of JSDoc annotations in third-party code. These
+annotations appear in the <a href="http://code.google.com/p/jsdoc-toolkit/wiki/TagReference">JSDoc Toolkit Tag Reference</a> but are not considered
+part of valid Google style.</p>
+
 <h4 id="appendices-framework-specific-annotations">9.1.3 Framework specific annotations</h4>
 
 <p>The following annotations are specific to a particular framework.</p>
@@ -3302,30 +3483,6 @@ class ApplicationEvent {}
 
 </section>
 
-<section class="zippy">
-
-</section>
-
-<section class="zippy">
-
-</section>
-
-<section class="zippy">
-
-</section>
-
-<section class="zippy">
-
-</section>
-
-<section class="zippy">
-
-</section>
-
-<section class="zippy">
-
-</section>
-
 <h3 id="appendices-commonly-misunderstood-style-rules">9.2 Commonly misunderstood style rules</h3>
 
 <p>Here is a collection of lesser-known or commonly misunderstood facts about
@@ -3341,8 +3498,8 @@ class (<a href="#features-classes">??</a>).</li>
 (<a href="#formatting-empty-blocks">??</a>).</li>
 <li>The prime directive of line-wrapping is: prefer to break at a higher
 syntactic level (<a href="#formatting-where-to-break">??</a>).</li>
-<li>Non-ASCII characters are allowed in string literals, comments and JSDoc,
-and in fact are recommended when they make the code easier to read than the
+<li>Non-ASCII characters are allowed in string literals, comments and JSDoc, and
+in fact are recommended when they make the code easier to read than the
 equivalent Unicode escape would (<a href="#non-ascii-characters">??</a>).</li>
 </ul>
 
@@ -3352,16 +3509,16 @@ equivalent Unicode escape would (<a href="#non-ascii-characters">??</a>).</li>
 
 <h4 id="appendices-tools-closure-compiler">9.3.1 Closure Compiler</h4>
 
-<p>This program performs type checking and other checks,
-optimizations and other transformations (such as ECMAScript 6 to ECMAScript 5
-code lowering).</p>
+<p>This program performs type checking and
+other checks, optimizations and other transformations (such as lowering code to
+ECMAScript 5).</p>
 
 <h4 id="appendices-clang-format">9.3.2 <code>clang-format</code></h4>
 
 <p>This program  reformats
 JavaScript source code into Google Style, and also follows a number of
-non-required but frequently readability-enhancing formatting practices.
-The output produced by <code>clang-format</code> is compliant with the style guide.
+non-required but frequently readability-enhancing formatting practices. The
+output produced by <code>clang-format</code> is compliant with the style guide.
 </p>
 
 <p><code>clang-format</code> is not required. Authors are allowed to change its output, and
@@ -3371,14 +3528,13 @@ usual way. However, subtrees may choose to opt in to such enforcement locally.</
 <h4 id="appendices-closure-compiler-linter">9.3.3 Closure compiler linter</h4>
 
 <p>This program  checks for a
-variety of missteps and anti-patterns.
-</p>
+variety of missteps and anti-patterns.</p>
 
 <h4 id="appendices-conformance-framework">9.3.4 Conformance framework</h4>
 
 <p>The JS Conformance Framework is a tool that is part of the Closure Compiler that
 provides developers a simple means to specify a set of additional checks to be
-run against their code base above the standard checks.  Conformance checks can,
+run against their code base above the standard checks. Conformance checks can,
 for example, forbid access to a certain property, or calls to a certain
 function, or missing type information (unknowns).</p>
 
@@ -3394,8 +3550,8 @@ globals, which could break the codebase) and security patterns (such as using
 <h4 id="appendices-legacy-exceptions-overview">9.4.1 Overview</h4>
 
 <p>This section describes exceptions and additional rules to be followed when
-modern ECMAScript 6 syntax is not available to the code authors. Exceptions to
-the recommended style are required when ECMAScript 6 syntax is not possible and
+modern ECMAScript syntax is not available to the code authors. Exceptions to the
+recommended style are required when modern ECMAScript syntax is not possible and
 are outlined here:</p>
 
 <ul>
@@ -3443,8 +3599,8 @@ if that variable is referenced outside the block. For example:</p>
 <h5 id="appendices-legacy-exceptions-var-const">9.4.2.3 Use @const for constants variables</h5>
 
 <p>For global declarations where the <code>const</code> keyword would be used, if it were
-available, annotate the <code>var</code> declaration with @const instead (this is optional
-for local variables).</p>
+available, annotate the <code>var</code> declaration with <code>@const</code> instead (this is
+optional for local variables).</p>
 
 <h4 id="appendices-legacy-exceptions-function">9.4.3 Do not use block scoped functions declarations</h4>
 
@@ -3457,10 +3613,10 @@ for local variables).</p>
 
 <p>While most JavaScript VMs implemented before ECMAScript 6 support function
 declarations within blocks it was not standardized. Implementations were
-inconsistent with each other and with the now-standard ECMAScript 6 behavior for
-block scoped function declaration. ECMAScript 5 and prior only allow for
-function declarations in the root statement list of a script or function and
-explicitly ban them in block scopes in strict mode.</p>
+inconsistent with each other and with the now-standard ECMAScript behavior for
+block scoped function declaration. The ECMAScript 5 standard and prior only
+allow for function declarations in the root statement list of a script or
+function and explicitly ban them in block scopes in strict mode.</p>
 
 <p>To get consistent behavior, instead use a <code>var</code> initialized with a function
 expression to define a function within a block:</p>
@@ -3540,11 +3696,11 @@ goog.provide('foo.bar.method');
 <p><strong>WARNING: <code>goog.scope</code> is deprecated.</strong> New files should not use <code>goog.scope</code>
 even in projects with existing <code>goog.scope</code> usage.</p>
 
-<p><code>goog.scope</code> may be used to shorten references to namespaced symbols in
-code using <code>goog.provide</code>/<code>goog.require</code> dependency management.</p>
+<p><code>goog.scope</code> may be used to shorten references to namespaced symbols in code
+using <code>goog.provide</code>/<code>goog.require</code> dependency management.</p>
 
-<p>Only one <code>goog.scope</code> invocation may be added per file. Always place it in
-the global scope.</p>
+<p>Only one <code>goog.scope</code> invocation may be added per file. Always place it in the
+global scope.</p>
 
 <p>The opening <code>goog.scope(function() {</code> invocation must be preceded by exactly one
 blank line and follow any <code>goog.provide</code> statements, <code>goog.require</code> statements,
@@ -3566,7 +3722,8 @@ Button = function() { ... };
 ...
 </code></pre>
 
-<p>Names must be the same as the last property of the global that they are aliasing.</p>
+<p>Names must be the same as the last property of the global that they are
+aliasing.</p>
 
 <pre><code class="language-js prettyprint good">goog.provide('my.module.SomeType');
 
@@ -3597,14 +3754,47 @@ circular dependencies between files in the same library. Unlike <code>goog.requi
 a <code>goog.requireType</code> statement is allowed to import a namespace before it is
 defined.</p>
 
-<p><code>goog.forwardDeclare</code> may still be used in legacy code to break circular
-references spanning across library boundaries, but newer code should be
-structured to avoid it.</p>
-
 <p><code>goog.forwardDeclare</code> statements must follow the same style rules as
 <code>goog.require</code> and <code>goog.requireType</code>. The entire block of
 <code>goog.forwardDeclare</code>, <code>goog.require</code> and <code>goog.requireType</code> statements is
 sorted alphabetically.</p>
+
+<p><code>goog.forwardDeclare</code> is used in legacy code to break circular references
+spanning <em>across library boundaries</em>. This pattern however is poorly supported
+by build tools and should not be used. Code should be organized to avoid
+circular dependencies across libraries (by splitting/merging libraries).</p>
+
+<h5 id="appendices-legacy-exceptions-module-get">9.4.4.4 <code>goog.module.get(name)</code></h5>
+
+<p>If a <code>goog.provide</code> file depends on a <code>goog.module</code> file, the <code>goog.provide</code>
+file can not normally refer to the module's exports via a global name. Instead,
+in addition to <code>goog.require()</code>ing the module, the <code>goog.provide</code> file must
+fetch the module's export object by calling <code>goog.module.get('module.name')</code>.</p>
+
+<p>Note: Only calling <code>goog.module.get('module.name')</code> does not create a build-time
+dependency of your code on the module. The <code>goog.require</code> is needed for the
+build dependency.</p>
+
+<h5 id="appendices-legacy-exceptions-declareLegacyNamespace">9.4.4.5 <code>goog.module.declareLegacyNamespace()</code></h5>
+
+<p><strong>WARNING: <code>goog.module.declareLegacyNamespace</code> is only for transitional use.</strong></p>
+
+<p><code>goog.module.declareLegacyNamespace</code> is only for use while migrating a
+JavaScript file and its consumers from <code>goog.provide</code> to <code>goog.module</code>
+. Update consumers of
+your <a href="#source-file-structure"><code>goog.module</code></a> to use <code>goog.module</code> themselves.
+Remove calls to <code>goog.module.declareLegacyNamespace</code> whenever possible.
+</p>
+
+<p>If you can't update consumers of a legacy namespace from <code>goog.provide</code> to
+<code>goog.module</code> soon, please wrap the contents of your file in a call to
+<code>goog.scope</code>, use <code>goog.module.get</code> to import the legacy namespace--and then
+delete the call to <code>goog.module.declareLegacyNamespace</code> in your <code>goog.module</code>.</p>
+
+<p>Calling <code>goog.module.declareLegacyNamespace()</code> inside a <code>goog.module(name)</code> will
+declare the module's namespace as a global name just like a <code>goog.provide()</code>
+call does. This allows a non <code>goog.module</code> namespace to access the module's
+exports without calling <code>goog.module.get(name)</code>.</p>
 
 </div>
 </body>
