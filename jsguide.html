@@ -89,7 +89,7 @@ depending only on which makes the code <strong>easier to read and understand</st
 <p>Tip: In the Unicode escape case, and occasionally even when actual Unicode
 characters are used, an explanatory comment can be very helpful.</p>
 
-<pre><code class="language-js prettyprint">/* Best: perfectly clear even without a comment. */
+<pre><code class="language-js prettyprint good">/* Best: perfectly clear even without a comment. */
 const units = '&#956;s';
 
 /* Allowed: but unnecessary as &#956; is a printable character. */
@@ -99,7 +99,7 @@ const units = '\u03bcs'; // '&#956;s'
 return '\ufeff' + content;  // Prepend a byte order mark.
 </code></pre>
 
-<pre><code class="language-js prettyprint badcode">/* Poor: the reader has no idea what character this is. */
+<pre><code class="language-js prettyprint bad">/* Poor: the reader has no idea what character this is. */
 const units = '\u03bcs';
 </code></pre>
 
@@ -146,7 +146,7 @@ that it defines concatenated to the end.</p>
 
 <p>Example</p>
 
-<pre><code class="language-js prettyprint">goog.module('search.urlHistory.UrlHistoryService');
+<pre><code class="language-js prettyprint good">goog.module('search.urlHistory.UrlHistoryService');
 </code></pre>
 
 <h4 id="naming-hierarchy">3.3.1 Hierarchy</h4>
@@ -156,7 +156,7 @@ namespace.</p>
 
 <p>Disallowed:</p>
 
-<pre><code class="language-js prettyprint badcode">goog.module('foo.bar');   // 'foo.bar.qux' would be fine, though
+<pre><code class="language-js prettyprint bad">goog.module('foo.bar');   // 'foo.bar.qux' would be fine, though
 goog.module('foo.bar.baz');
 </code></pre>
 
@@ -173,7 +173,7 @@ child namespaces, since they exist in the same directory.</p>
 
 <p>Example:</p>
 
-<pre><code class="language-js prettyprint">goog.module('my.test.helpers');
+<pre><code class="language-js prettyprint good">goog.module('my.test.helpers');
 goog.module.declareLegacyNamespace();
 goog.setTestOnly();
 </code></pre>
@@ -198,7 +198,7 @@ symbols.</p>
 
 <p>Examples:</p>
 
-<pre><code class="language-js prettyprint">const /** !Array&lt;number&gt; */ exportedArray = [1, 2, 3];
+<pre><code class="language-js prettyprint good">const /** !Array&lt;number&gt; */ exportedArray = [1, 2, 3];
 
 const /** !Array&lt;number&gt; */ moduleLocalArray = [4, 5, 6];
 
@@ -215,7 +215,7 @@ function exportedFunction() {
 exports = {exportedArray, exportedFunction};
 </code></pre>
 
-<pre><code class="language-js prettyprint">/** @const {number} */
+<pre><code class="language-js prettyprint good">/** @const {number} */
 exports.CONSTANT_ONE = 1;
 
 /** @const {string} */
@@ -225,7 +225,7 @@ exports.CONSTANT_TWO = 'Another constant';
 <p>Do not annotate the <code>exports</code> object as <code>@const</code> as it is already treated as a
 constant by the compiler.</p>
 
-<pre><code class="language-js badcode prettyprint">/** @const */
+<pre><code class="language-js prettyprint bad">/** @const */
 exports = {exportedFunction};
 </code></pre>
 
@@ -247,7 +247,7 @@ exports = {exportedFunction};
 <p>ES module files must use the <code>import</code> statement to import other ES module
 files. Do not <code>goog.require</code> another ES module.</p>
 
-<pre><code class="language-js prettyprint external">import './sideeffects.js';
+<pre><code class="language-js prettyprint good">import './sideeffects.js';
 
 import * as goog from '../closure/goog/goog.js';
 import * as parent from '../parent.js';
@@ -262,10 +262,10 @@ import {name} from './sibling.js';
 <p>The <code>.js</code> file extension is not optional in import paths and must always be
 included.</p>
 
-<pre><code class="language-js badcode prettyprint">import '../directory/file';
+<pre><code class="language-js prettyprint bad">import '../directory/file';
 </code></pre>
 
-<pre><code class="language-js good prettyprint">import '../directory/file.js';
+<pre><code class="language-js prettyprint good">import '../directory/file.js';
 </code></pre>
 
 <h5 id="importing-the-same-file-multiple-times">3.4.1.2 Importing the same file multiple times</h5>
@@ -273,7 +273,7 @@ included.</p>
 <p>Do not import the same file multiple times. This can make it hard to determine
 the aggregate imports of a file.</p>
 
-<pre><code class="language-js badcode prettyprint">// Imports have the same path, but since it doesn't align it can be hard to see.
+<pre><code class="language-js prettyprint bad">// Imports have the same path, but since it doesn't align it can be hard to see.
 import {short} from './long/path/to/a/file.js';
 import {aLongNameThatBreaksAlignment} from './long/path/to/a/file.js';
 </code></pre>
@@ -287,12 +287,12 @@ import {aLongNameThatBreaksAlignment} from './long/path/to/a/file.js';
 <p>Module import names (<code>import * as name</code>) are <code>lowerCamelCase</code> names that are
 derived from the imported file name.</p>
 
-<pre><code class="language-js prettyprint">import * as fileOne from '../file-one.js';
+<pre><code class="language-js prettyprint good">import * as fileOne from '../file-one.js';
 import * as fileTwo from '../file_two.js';
 import * as fileThree from '../filethree.js';
 </code></pre>
 
-<pre><code class="language-js prettyprint">import * as libString from './lib/string.js';
+<pre><code class="language-js prettyprint good">import * as libString from './lib/string.js';
 import * as math from './math/math.js';
 import * as vectorMath from './vector/math.js';
 </code></pre>
@@ -302,7 +302,7 @@ import * as vectorMath from './vector/math.js';
 <p>Default import names are derived from the imported file name and follow the
 rules in <a href="#naming-rules-by-identifier-type">??</a>.</p>
 
-<pre><code class="language-js prettyprint">import MyClass from '../my-class.js';
+<pre><code class="language-js prettyprint good">import MyClass from '../my-class.js';
 import myFunction from '../my_function.js';
 import SOME_CONSTANT from '../someconstant.js';
 </code></pre>
@@ -318,7 +318,7 @@ the same name. Avoid aliasing imports (<code>import {SomeThing as SomeOtherThing
 Prefer fixing name collisions by using a module import (<code>import *</code>) or renaming
 the exports themselves.</p>
 
-<pre><code class="language-js prettyprint">import * as bigAnimals from './biganimals.js';
+<pre><code class="language-js prettyprint good">import * as bigAnimals from './biganimals.js';
 import * as domesticatedAnimals from './domesticatedanimals.js';
 
 new bigAnimals.Cat();
@@ -328,7 +328,7 @@ new domesticatedAnimals.Cat();
 <p>If renaming a named import is needed then use components of the imported
 module's file name or path in the resulting alias.</p>
 
-<pre><code class="language-js prettyprint">import {Cat as BigCat} from './biganimals.js';
+<pre><code class="language-js prettyprint good">import {Cat as BigCat} from './biganimals.js';
 import {Cat as DomesticatedCat} from './domesticatedanimals.js';
 
 new BigCat();
@@ -352,15 +352,15 @@ declaration, or use the <code>export {name};</code> syntax.</p>
 <p>Do not use default exports. Importing modules must give a name to these values,
 which can lead to inconsistencies in naming across modules.</p>
 
-<pre><code class="language-js badcode prettyprint">// Do not use default exports:
+<pre><code class="language-js prettyprint bad">// Do not use default exports:
 export default class Foo { ... } // BAD!
 </code></pre>
 
-<pre><code class="language-js good prettyprint">// Use named exports:
+<pre><code class="language-js prettyprint good">// Use named exports:
 export class Foo { ... }
 </code></pre>
 
-<pre><code class="language-js good prettyprint">// Alternate style named exports:
+<pre><code class="language-js prettyprint good">// Alternate style named exports:
 class Foo { ... }
 
 export {Foo};
@@ -371,7 +371,7 @@ export {Foo};
 <p>Do not export container classes or objects with static methods or properties for
 the sake of namespacing.</p>
 
-<pre><code class="language-js badcode prettyprint">// container.js
+<pre><code class="language-js prettyprint bad">// container.js
 // Bad: Container is an exported class that has only static methods and fields.
 export class Container {
   /** @return {number} */
@@ -386,7 +386,7 @@ Container.FOO = 1;
 
 <p>Instead, export individual constants and functions:</p>
 
-<pre><code class="language-js good prettyprint">/** @return {number} */
+<pre><code class="language-js prettyprint good">/** @return {number} */
 export function bar() {
   return 1;
 }
@@ -404,7 +404,7 @@ export const /** number */ FOO = 1;
 reference to an object that has mutable fields or exporting accessor functions for
 mutable data.</p>
 
-<pre><code class="language-js badcode prettyprint">// Bad: both foo and mutateFoo are exported and mutated.
+<pre><code class="language-js prettyprint bad">// Bad: both foo and mutateFoo are exported and mutated.
 export let /** number */ foo = 0;
 
 /**
@@ -425,7 +425,7 @@ export function setMutateFoo(newMutateFoo) {
 }
 </code></pre>
 
-<pre><code class="language-js good prettyprint">// Good: Rather than export the mutable variables foo and mutateFoo directly,
+<pre><code class="language-js prettyprint good">// Good: Rather than export the mutable variables foo and mutateFoo directly,
 // instead make them module scoped and export a getter for foo and a wrapper for
 // mutateFooFunc.
 let /** number */ foo = 0;
@@ -453,7 +453,7 @@ export function setMutateFoo(mutateFoo) {
 <p><code>export from</code> statements must not be line wrapped and are therefore an
 exception to the 80-column limit. This applies to both <code>export from</code> flavors.</p>
 
-<pre><code class="language-js">export {specificName} from './other.js';
+<pre><code class="language-js prettyprint good">export {specificName} from './other.js';
 export * from './another.js';
 </code></pre>
 
@@ -463,18 +463,18 @@ export * from './another.js';
 specification allows this. Note that it is possible to create cycles with both
 the <code>import</code> and <code>export</code> statements.</p>
 
-<pre><code class="language-js badcode prettyprint">// a.js
+<pre><code class="language-js prettyprint bad">// a.js
 import './b.js';
 </code></pre>
 
-<pre><code class="language-js badcode prettyprint">// b.js
+<pre><code class="language-js prettyprint bad">// b.js
 import './a.js';
 
 // `export from` can cause circular dependencies too!
 export {x} from './c.js';
 </code></pre>
 
-<pre><code class="language-js badcode prettyprint">// c.js
+<pre><code class="language-js prettyprint bad">// c.js
 import './b.js';
 
 export let x;
@@ -490,7 +490,7 @@ export let x;
 
 <p>To reference the Closure <code>goog</code> namespace, import Closure's <code>goog.js</code>.</p>
 
-<pre><code class="language-js good prettyprint external">import * as goog from '../closure/goog/goog.js';
+<pre><code class="language-js prettyprint good">import * as goog from '../closure/goog/goog.js';
 
 const name = goog.require('a.name');
 
@@ -508,7 +508,7 @@ used in ES modules.</p>
 require any Closure namespace symbol (i.e., symbols created by <code>goog.provide</code> or
 <code>goog.module</code>) and <code>goog.require</code> will return the value.</p>
 
-<pre><code class="language-js prettyprint external">import * as goog from '../closure/goog/goog.js';
+<pre><code class="language-js prettyprint good">import * as goog from '../closure/goog/goog.js';
 import * as anEsModule from './anEsModule.js';
 
 const GoogPromise = goog.require('goog.Promise');
@@ -537,7 +537,7 @@ to associate a <q>legacy</q> namespace with an ES module.</p>
 <p><code>goog.declareModuleId</code> should only be used to upgrade Closure files to ES
 modules in place, where named exports are used.</p>
 
-<pre><code class="language-js prettyprint external">import * as goog from '../closure/goog.js';
+<pre><code class="language-js prettyprint good">import * as goog from '../closure/goog.js';
 
 goog.declareModuleId('my.esm');
 
@@ -615,7 +615,7 @@ limit.</p>
 
 <p>Example:</p>
 
-<pre><code class="language-js prettyprint">// Standard alias style.
+<pre><code class="language-js prettyprint good">// Standard alias style.
 const MyClass = goog.require('some.package.MyClass');
 const MyType = goog.requireType('some.package.MyType');
 // Namespace-based alias used to disambiguate.
@@ -643,14 +643,14 @@ goog.require('my.framework.initialization');
 
 <p>Discouraged:</p>
 
-<pre><code class="language-js badcode prettyprint">// If necessary to disambiguate, prefer PackageClass over SomeClass as it is
+<pre><code class="language-js prettyprint bad">// If necessary to disambiguate, prefer PackageClass over SomeClass as it is
 // closer to the format of the module name.
 const SomeClass = goog.require('some.package.Class');
 </code></pre>
 
 <p>Disallowed:</p>
 
-<pre><code class="language-js badcode prettyprint">// Extra terms must come from the namespace.
+<pre><code class="language-js prettyprint bad">// Extra terms must come from the namespace.
 const MyClassForBizzing = goog.require('some.package.MyClass');
 // Alias must include the entire final namespace component.
 const MyClass = goog.require('some.package.MyClassForBizzing');
@@ -709,7 +709,7 @@ statement.  The first statement of a non-empty block must begin on its own line.
 
 <p>Disallowed:</p>
 
-<pre><code class="language-js badcode prettyprint">if (someVeryLongCondition())
+<pre><code class="language-js prettyprint bad">if (someVeryLongCondition())
   doSomething();
 
 for (let i = 0; i &lt; foo.length; i++) bar(foo[i]);
@@ -720,7 +720,7 @@ no wrapping (and that doesn&#8217;t have an else) may be kept on a single line w
 braces when it improves readability.  This is the only case in which a control
 structure may omit braces and newlines.</p>
 
-<pre><code class="language-js prettyprint">if (shortCondition()) foo();
+<pre><code class="language-js prettyprint good">if (shortCondition()) foo();
 </code></pre>
 
 <h4 id="formatting-nonempty-blocks">4.1.2 Nonempty blocks: K&amp;R style</h4>
@@ -740,7 +740,7 @@ there is <em>no</em> line break after the brace if it is followed by <code>else<
 
 <p>Example:</p>
 
-<pre><code class="language-js prettyprint">class InnerClass {
+<pre><code class="language-js prettyprint good">class InnerClass {
   constructor() {}
 
   /** @param {number} foo */
@@ -766,12 +766,12 @@ multiple blocks: <code>if</code>/<code>else</code> or <code>try</code>/<code>cat
 
 <p>Example:</p>
 
-<pre><code class="language-js prettyprint">function doNothing() {}
+<pre><code class="language-js prettyprint good">function doNothing() {}
 </code></pre>
 
 <p>Disallowed:</p>
 
-<pre><code class="language-js prettyprint badcode">if (condition) {
+<pre><code class="language-js prettyprint bad">if (condition) {
   // &#8230;
 } else if (otherCondition) {} else {
   // &#8230;
@@ -795,7 +795,7 @@ block. (See the example in <a href="#formatting-nonempty-blocks">??</a>).</p>
 construct.&#8221; For example, the following are all valid (<strong>not</strong> an exhaustive
 list):</p>
 
-<pre><code class="language-js prettyprint columns">const a = [
+<pre><code class="language-js prettyprint good">const a = [
   0,
   1,
   2,
@@ -806,7 +806,7 @@ const b =
 
 </code></pre>
 
-<pre><code class="language-js prettyprint columns">const c = [0, 1, 2];
+<pre><code class="language-js prettyprint good">const c = [0, 1, 2];
 
 someMethod(foo, [
   0, 1, 2,
@@ -823,7 +823,7 @@ larger arrays.</p>
 construct.&#8221; The same examples apply as <a href="#formatting-array-literals">??</a>. For
 example, the following are all valid (<strong>not</strong> an exhaustive list):</p>
 
-<pre><code class="language-js prettyprint columns">const a = {
+<pre><code class="language-js prettyprint good">const a = {
   a: 0,
   b: 1,
 };
@@ -832,7 +832,7 @@ const b =
     {a: 0, b: 1};
 </code></pre>
 
-<pre><code class="language-js prettyprint columns">const c = {a: 0, b: 1};
+<pre><code class="language-js prettyprint good">const c = {a: 0, b: 1};
 
 someMethod(foo, {
   a: 0, b: 1,
@@ -849,7 +849,7 @@ are still terminated with a semicolon). Use the <code>extends</code> keyword, bu
 
 <p>Example:</p>
 
-<pre><code class="language-js prettyprint columns">class Foo {
+<pre><code class="language-js prettyprint good">class Foo {
   constructor() {
     /** @type {number} */
     this.x = 42;
@@ -863,7 +863,7 @@ are still terminated with a semicolon). Use the <code>extends</code> keyword, bu
 Foo.Empty = class {};
 </code></pre>
 
-<pre><code class="language-js prettyprint columns">/** @extends {Foo&lt;string&gt;} */
+<pre><code class="language-js prettyprint good">/** @extends {Foo&lt;string&gt;} */
 foo.Bar = class extends Foo {
   /** @override */
   method() {
@@ -886,7 +886,7 @@ indentation depth.</p>
 
 <p>Example:</p>
 
-<pre><code class="language-js prettyprint">prefix.something.reallyLongFunctionName('whatever', (a1, a2) =&gt; {
+<pre><code class="language-js prettyprint good">prefix.something.reallyLongFunctionName('whatever', (a1, a2) =&gt; {
   // Indent the function body +2 relative to indentation depth
   // of the 'prefix' statement one line above.
   if (a1.equals(a2)) {
@@ -922,7 +922,7 @@ indentation level, as if a block had been closed.</p>
 
 <p>Example:</p>
 
-<pre><code class="language-js prettyprint">switch (animal) {
+<pre><code class="language-js prettyprint good">switch (animal) {
   case Animal.BANDERSNATCH:
     handleBandersnatch();
     break;
@@ -994,14 +994,14 @@ level</strong>. </p>
 
 <p>Preferred:</p>
 
-<pre><code class="language-js prettyprint">currentEstimate =
+<pre><code class="language-js prettyprint good">currentEstimate =
     calc(currentEstimate + x * currentEstimate) /
         2.0;
 </code></pre>
 
 <p>Discouraged:</p>
 
-<pre><code class="language-js prettyprint badcode">currentEstimate = calc(currentEstimate + x *
+<pre><code class="language-js prettyprint bad">currentEstimate = calc(currentEstimate + x *
     currentEstimate) / 2.0;
 </code></pre>
 
@@ -1114,7 +1114,7 @@ where it was already used.</p>
 <p>Here is an example without alignment, followed by one with alignment.  Both are
 allowed, but the latter is discouraged:</p>
 
-<pre><code class="language-js prettyprint">{
+<pre><code class="language-js prettyprint good">{
   tiny: 42, // this is great
   longer: 435, // this too
 };
@@ -1138,7 +1138,7 @@ information, slows down reviewers and exacerbates merge conflicts.</p>
 
 <p>Prefer to put all function arguments on the same line as the function name. If doing so would exceed the 80-column limit, the arguments must be line-wrapped in a readable way. To save space, you may wrap as close to 80 as possible, or put each argument on its own line to enhance readability. Indentation should be four spaces. Aligning to the parenthesis is allowed, but discouraged. Below are the most common patterns for argument wrapping:</p>
 
-<pre><code class="language-js prettyprint">// Arguments start on a new line, indented four spaces. Preferred when the
+<pre><code class="language-js prettyprint good">// Arguments start on a new line, indented four spaces. Preferred when the
 // arguments don't fit on the same line with the function name (or the keyword
 // "function") but fit entirely on the second line. Works with very long
 // function names, survives renaming without reindenting, low on space.
@@ -1190,7 +1190,7 @@ be in <code>/* &#8230; */</code> or <code>//</code>-style. For multi-line <code>
 lines must start with * aligned with the <code>*</code> on the previous line, to make
 comments obvious with no extra context.</p>
 
-<pre><code class="language-js prettyprint">/*
+<pre><code class="language-js prettyprint good">/*
  * This is
  * okay.
  */
@@ -1212,13 +1212,13 @@ not sufficiently convey the meaning, and refactoring the method to be clearer is
 infeasible .
 Their preferred format is before the value with <q>=</q>:</p>
 
-<pre><code class="language-js prettyprint">someFunction(obviousParam, /* shouldRender= */ true, /* name= */ 'hello');
+<pre><code class="language-js prettyprint good">someFunction(obviousParam, /* shouldRender= */ true, /* name= */ 'hello');
 </code></pre>
 
 <p>For consistency with surrounding code you may put them after the value without
 <q>=</q>:</p>
 
-<pre><code class="language-js prettyprint">someFunction(obviousParam, true /* shouldRender */, 'hello' /* name */);
+<pre><code class="language-js prettyprint good">someFunction(obviousParam, true /* shouldRender */, 'hello' /* name */);
 </code></pre>
 
 <h2 id="language-features">5 Language features</h2>
@@ -1253,7 +1253,7 @@ else inline before the variable name if no other JSDoc is present.</p>
 
 <p>Example:</p>
 
-<pre><code class="language-js prettyprint">const /** !Array&lt;number&gt; */ data = [];
+<pre><code class="language-js prettyprint good">const /** !Array&lt;number&gt; */ data = [];
 
 /**
  * Some description.
@@ -1265,7 +1265,7 @@ const data = [];
 <p>Mixing inline and JSDoc styles is not allowed: the compiler will only process
 the first JsDoc and the inline annotations will be lost.</p>
 
-<pre><code class="language-js prettyprint badcode">/** Some description. */
+<pre><code class="language-js prettyprint bad">/** Some description. */
 const /** !Array&lt;number&gt; */ data = [];
 </code></pre>
 
@@ -1287,7 +1287,7 @@ element and the closing bracket.</p>
 
 <p>Example:</p>
 
-<pre><code class="language-js prettyprint">const values = [
+<pre><code class="language-js prettyprint good">const values = [
   'first value',
   'second value',
 ];
@@ -1300,7 +1300,7 @@ instead.</p>
 
 <p>Disallowed:</p>
 
-<pre><code class="language-js prettyprint badcode">const a1 = new Array(x1, x2, x3);
+<pre><code class="language-js prettyprint bad">const a1 = new Array(x1, x2, x3);
 const a2 = new Array(x1, x2);
 const a3 = new Array(x1);
 const a4 = new Array();
@@ -1313,7 +1313,7 @@ it will be a single-element array.</p>
 
 <p>Instead, write</p>
 
-<pre><code class="language-js prettyprint">const a1 = [x1, x2, x3];
+<pre><code class="language-js prettyprint good">const a1 = [x1, x2, x3];
 const a2 = [x1, x2];
 const a3 = [x1];
 const a4 = [];
@@ -1334,7 +1334,7 @@ destructuring (such as when unpacking multiple values from a single array or
 iterable).  A final <q>rest</q> element may be included (with no space between the
 <code>...</code> and the variable name). Elements should be omitted if they are unused.</p>
 
-<pre><code class="language-js prettyprint">const [a, b, c, ...rest] = generateResults();
+<pre><code class="language-js prettyprint good">const [a, b, c, ...rest] = generateResults();
 let [, b,, d] = someArray;
 </code></pre>
 
@@ -1343,13 +1343,13 @@ name is required but ignored). Always specify <code>[]</code> as the default val
 destructured array parameter is optional, and provide default values on the left
 hand side:</p>
 
-<pre><code class="language-js prettyprint">/** @param {!Array&lt;number&gt;=} param1 */
+<pre><code class="language-js prettyprint good">/** @param {!Array&lt;number&gt;=} param1 */
 function optionalDestructuring([a = 4, b = 2] = []) { &#8230; };
 </code></pre>
 
 <p>Disallowed:</p>
 
-<pre><code class="language-js prettyprint badcode">function badDestructuring([a, b] = [4, 2]) { &#8230; };
+<pre><code class="language-js prettyprint bad">function badDestructuring([a, b] = [4, 2]) { &#8230; };
 </code></pre>
 
 <p>Tip: For (un)packing multiple values into a function&#8217;s parameter or return,
@@ -1365,7 +1365,7 @@ more awkward constructs with <code>Array.prototype</code>.  There is no space af
 
 <p>Example:</p>
 
-<pre><code class="language-js prettyprint">[...foo]   // preferred over Array.prototype.slice.call(foo)
+<pre><code class="language-js prettyprint good">[...foo]   // preferred over Array.prototype.slice.call(foo)
 [...foo, ...bar]   // preferred over foo.concat(bar)
 </code></pre>
 
@@ -1390,7 +1390,7 @@ types in a single object literal.</p>
 
 <p>Disallowed:</p>
 
-<pre><code class="language-js prettyprint badcode">{
+<pre><code class="language-js prettyprint bad">{
   width: 42, // struct-style unquoted key
   'maxWidth': 43, // dict-style quoted key
 }
@@ -1402,7 +1402,7 @@ the compiler cannot rename/obfuscate the string literal.</p>
 
 <p>Disallowed:</p>
 
-<pre><code class="language-js prettyprint badcode">/** @type {{width: number, maxWidth: (number|undefined)}} */
+<pre><code class="language-js prettyprint bad">/** @type {{width: number, maxWidth: (number|undefined)}} */
 const o = {width: 42};
 if (o.hasOwnProperty('maxWidth')) {
   ...
@@ -1411,7 +1411,7 @@ if (o.hasOwnProperty('maxWidth')) {
 
 <p>This is best implemented as:</p>
 
-<pre><code class="language-js prettyprint">/** @type {{width: number, maxWidth: (number|undefined)}} */
+<pre><code class="language-js prettyprint good">/** @type {{width: number, maxWidth: (number|undefined)}} */
 const o = {width: 42};
 if (o.maxWidth != null) {
   ...
@@ -1435,7 +1435,7 @@ function literal.</p>
 
 <p>Example:</p>
 
-<pre><code class="language-js prettyprint">return {
+<pre><code class="language-js prettyprint good">return {
   stuff: 'candy',
   method() {
     return this.stuff;  // Returns 'candy'
@@ -1449,7 +1449,7 @@ the object literal.</p>
 
 <p>Example:</p>
 
-<pre><code class="language-js prettyprint">class {
+<pre><code class="language-js prettyprint good">class {
   getObjectLiteral() {
     this.stuff = 'fruit';
     return {
@@ -1466,7 +1466,7 @@ the object literal.</p>
 
 <p>Example:</p>
 
-<pre><code class="language-js prettyprint">const foo = 1;
+<pre><code class="language-js prettyprint good">const foo = 1;
 const bar = 2;
 const obj = {
   foo,
@@ -1492,7 +1492,7 @@ by the compiler).</p>
 
 <p>Example:</p>
 
-<pre><code class="language-js prettyprint">/**
+<pre><code class="language-js prettyprint good">/**
  * @param {string} ordinary
  * @param {{num: (number|undefined), str: (string|undefined)}=} param1
  *     num: The number of times to do something.
@@ -1503,7 +1503,7 @@ function destructured(ordinary, {num, str = 'some default'} = {})
 
 <p>Disallowed:</p>
 
-<pre><code class="language-js prettyprint badcode">/** @param {{x: {num: (number|undefined), str: (string|undefined)}}} param1 */
+<pre><code class="language-js prettyprint bad">/** @param {{x: {num: (number|undefined), str: (string|undefined)}}} param1 */
 function nestedTooDeeply({x: {num, str}}) {};
 /** @param {{num: (number|undefined), str: (string|undefined)}=} param1 */
 function nonShorthandProperty({num: a, str: b} = {}) {};
@@ -1523,7 +1523,7 @@ long it is (see <a href="#file-goog-require">??</a>).</p>
 Additional properties may not be added to an enum after it is defined.  Enums
 must be constant, and all enum values must be deeply immutable.</p>
 
-<pre><code class="language-js prettyprint">/**
+<pre><code class="language-js prettyprint good">/**
  * Supported temperature scales.
  * @enum {string}
  */
@@ -1563,7 +1563,7 @@ class' <code>prototype</code>.</p>
 
 <p>Example:</p>
 
-<pre><code class="language-js prettyprint">class Foo {
+<pre><code class="language-js prettyprint good">class Foo {
   constructor() {
     /** @private @const {!Bar} */
     this.bar_ = computeBar();
@@ -1608,7 +1608,7 @@ that doesn&#8217;t define the method itself.</p>
 
 <p>Disallowed:</p>
 
-<pre><code class="language-js prettyprint badcode">class Base { /** @nocollapse */ static foo() {} }
+<pre><code class="language-js prettyprint bad">class Base { /** @nocollapse */ static foo() {} }
 class Sub extends Base {}
 function callFoo(cls) { cls.foo(); }  // discouraged: don't call static methods dynamically
 Sub.foo();  // Disallowed: don't call static methods on subclasses that don't define it themselves
@@ -1636,7 +1636,7 @@ appropriate.</p>
 <p><code>goog.defineClass</code> allows for a class-like definition similar to ES6 class
 syntax:</p>
 
-<pre><code class="language-javascript">let C = goog.defineClass(S, {
+<pre><code class="language-js prettyprint good">let C = goog.defineClass(S, {
   /**
    * @param {string} value
    */
@@ -1659,7 +1659,7 @@ syntax:</p>
 <p>Alternatively, while <code>goog.defineClass</code> should be preferred for all new code,
 more traditional syntax is also allowed.</p>
 
-<pre><code class="language-javascript">/**
+<pre><code class="language-js prettyprint good">/**
   * @constructor @extends {S}
   * @param {string} value
   */
@@ -1710,7 +1710,7 @@ the <code>get</code> and <code>set</code> shorthand method keywords or <code>Obj
 
 <p>Disallowed:</p>
 
-<pre><code class="language-js prettyprint badcode">class Foo {
+<pre><code class="language-js prettyprint bad">class Foo {
   get next() { return this.nextId++; }
 }
 </code></pre>
@@ -1734,7 +1734,7 @@ be declared as uninitialized members in the class constructor.</p>
 
 <p>Example:</p>
 
-<pre><code class="language-js prettyprint">/**
+<pre><code class="language-js prettyprint good">/**
  * Something that can frobnicate.
  * @record
  */
@@ -1769,13 +1769,13 @@ for more on exports.</p>
 
 <p>Examples:</p>
 
-<pre><code class="language-js prettyprint">/** @param {string} str */
+<pre><code class="language-js prettyprint good">/** @param {string} str */
 exports.processString = (str) =&gt; {
   // Process the string.
 };
 </code></pre>
 
-<pre><code class="language-js prettyprint">/** @param {string} str */
+<pre><code class="language-js prettyprint good">/** @param {string} str */
 const processString = (str) =&gt; {
   // Process the string.
 };
@@ -1821,7 +1821,7 @@ simple expressions).</p>
 
 <p>Examples:</p>
 
-<pre><code class="language-js prettyprint">/**
+<pre><code class="language-js prettyprint good">/**
  * Arrow functions can be documented just like normal functions.
  * @param {number} numParam A number to add.
  * @param {string} strParam Another number to add that happens to be a string.
@@ -1850,7 +1850,7 @@ class CallbackExample {
 
 <p>Disallowed:</p>
 
-<pre><code class="language-js prettyprint badcode">/**
+<pre><code class="language-js prettyprint bad">/**
  * A function with no params and no returned value.
  * This single expression body usage is illegal because the program logic does
  * not require returning a value and we're missing the `void` operator.
@@ -1868,7 +1868,7 @@ delegating yields, attach the <code>*</code> to the <code>yield</code> keyword.<
 
 <p>Example:</p>
 
-<pre><code class="language-js prettyprint">/** @return {!Iterator&lt;number&gt;} */
+<pre><code class="language-js prettyprint good">/** @return {!Iterator&lt;number&gt;} */
 function* gen1() {
   yield 42;
 }
@@ -1904,7 +1904,7 @@ methods must omit default parameter values.</p>
 
 <p>Example:</p>
 
-<pre><code class="language-js prettyprint">/**
+<pre><code class="language-js prettyprint good">/**
  * @param {string} required This parameter is always needed.
  * @param {string=} optional This parameter can be omitted.
  * @param {!Node=} node Another optional parameter.
@@ -1946,7 +1946,7 @@ parameter <code>arguments</code>, which confusingly shadows the built-in name.</
 
 <p>Example:</p>
 
-<pre><code class="language-js prettyprint">/**
+<pre><code class="language-js prettyprint good">/**
  * @param {!Array&lt;string&gt;} array This is an ordinary parameter.
  * @param {...number} numbers The remainder of arguments are all numbers.
  */
@@ -1966,7 +1966,7 @@ multiple parameters of a variadic function.  There is no space after the <code>.
 
 <p>Example:</p>
 
-<pre><code class="language-js prettyprint">function myFunction(...elements) {}
+<pre><code class="language-js prettyprint good">function myFunction(...elements) {}
 myFunction(...array, ...iterable, ...generator());
 </code></pre>
 
@@ -1994,7 +1994,7 @@ not matter.</p>
 
 <p>Example:</p>
 
-<pre><code class="language-js prettyprint">function arithmetic(a, b) {
+<pre><code class="language-js prettyprint good">function arithmetic(a, b) {
   return `Here is a table of arithmetic operations:
 ${a} + ${b} = ${a + b}
 ${a} - ${b} = ${a - b}
@@ -2012,14 +2012,14 @@ after the slash, and is less obvious to readers.</p>
 
 <p>Disallowed:</p>
 
-<pre><code class="language-js prettyprint badcode">const longString = 'This is a very long string that far exceeds the 80 \
+<pre><code class="language-js prettyprint bad">const longString = 'This is a very long string that far exceeds the 80 \
     column limit. It unfortunately contains long stretches of spaces due \
     to how the continued lines are indented.';
 </code></pre>
 
 <p>Instead, write</p>
 
-<pre><code class="language-js prettyprint">const longString = 'This is a very long string that far exceeds the 80 ' +
+<pre><code class="language-js prettyprint good">const longString = 'This is a very long string that far exceeds the 80 ' +
     'column limit. It does not contain long stretches of spaces since ' +
     'the concatenated strings are cleaner.';
 </code></pre>
@@ -2068,7 +2068,7 @@ property).</p>
 it truly is appropriate to take no action whatsoever in a catch block, the
 reason this is justified is explained in a comment.</p>
 
-<pre><code class="language-js prettyprint">try {
+<pre><code class="language-js prettyprint good">try {
   return handleNumericResponse(response);
 } catch (ok) {
   // it's not numeric; that's fine, just continue
@@ -2078,7 +2078,7 @@ return handleTextResponse(response);
 
 <p>Disallowed:</p>
 
-<pre><code class="language-js prettyprint badcode">  try {
+<pre><code class="language-js prettyprint bad">  try {
     shouldFail();
     fail('expected an error');
   } catch (expected) {
@@ -2103,7 +2103,7 @@ statement group of the switch block.</p>
 
 <p>Example:</p>
 
-<pre><code class="language-js prettyprint">switch (input) {
+<pre><code class="language-js prettyprint good">switch (input) {
   case 1:
   case 2:
     prepareOneOrTwo();
@@ -2138,7 +2138,7 @@ target of an event, or unnecessarily <code>call()</code>ed or <code>apply()</cod
 
 <p>Catching both <code>null</code> and <code>undefined</code> values:</p>
 
-<pre><code class="language-js prettyprint">if (someObjectOrPrimitive == null) {
+<pre><code class="language-js prettyprint good">if (someObjectOrPrimitive == null) {
   // Checking for null catches both null and undefined for objects and
   // primitives, but does not catch other falsy values like 0 or the empty
   // string.
@@ -2182,7 +2182,7 @@ forbidden.</p>
 
 <p>Disallowed:</p>
 
-<pre><code class="language-js prettyprint badcode">const /** Boolean */ x = new Boolean(false);
+<pre><code class="language-js prettyprint bad">const /** Boolean */ x = new Boolean(false);
 if (x) alert(typeof x);  // alerts 'object' - WAT?
 </code></pre>
 
@@ -2191,7 +2191,7 @@ using <code>+</code> or concatenating the empty string) or creating symbols.</p>
 
 <p>Example:</p>
 
-<pre><code class="language-js prettyprint">const /** boolean */ x = Boolean(0);
+<pre><code class="language-js prettyprint good">const /** boolean */ x = Boolean(0);
 if (!x) alert(typeof x);  // alerts 'boolean', as expected
 </code></pre>
 
@@ -2211,18 +2211,18 @@ possible; nothing else may modify builtin objects.</p>
 
 <p>Disallowed:</p>
 
-<pre><code class="language-js prettyprint badcode">new Foo;
+<pre><code class="language-js prettyprint bad">new Foo;
 </code></pre>
 
 <p>Use instead:</p>
 
-<pre><code class="language-js prettyprint">new Foo();
+<pre><code class="language-js prettyprint good">new Foo();
 </code></pre>
 
 <p>Omitting parentheses can lead to subtle mistakes. These two lines are not
 equivalent:</p>
 
-<pre><code class="language-js prettyprint">new Foo().Bar();
+<pre><code class="language-js prettyprint good">new Foo().Bar();
 new Foo.Bar();
 </code></pre>
 
@@ -2240,7 +2240,7 @@ understandable by a new reader. Do not use abbreviations that are ambiguous or
 unfamiliar to readers outside your project, and do not abbreviate by deleting
 letters within a word.</p>
 
-<pre><code class="language-js prettyprint">errorCount          // No abbreviation.
+<pre><code class="language-js prettyprint good">errorCount          // No abbreviation.
 dnsConnectionIndex  // Most people know what "DNS" stands for.
 referrerUrl         // Ditto for "URL".
 customerId          // "Id" is both ubiquitous and unlikely to be misunderstood.
@@ -2248,7 +2248,7 @@ customerId          // "Id" is both ubiquitous and unlikely to be misunderstood.
 
 <p>Disallowed:</p>
 
-<pre><code class="language-js prettyprint badcode">n                   // Meaningless.
+<pre><code class="language-js prettyprint bad">n                   // Meaningless.
 nErr                // Ambiguous abbreviation.
 nCompConns          // Ambiguous abbreviation.
 wgcConnections      // Only your group knows what this stands for.
@@ -2313,7 +2313,7 @@ intending to never mutate the object is generally not enough.</p>
 
 <p>Examples:</p>
 
-<pre><code class="language-js prettyprint">// Constants
+<pre><code class="language-js prettyprint good">// Constants
 const NUMBER = 5;
 /** @const */ exports.NAMES = ImmutableList.of('Ed', 'Ann');
 /** @enum */ exports.SomeEnum = { ENUM_CONSTANT: 'value' };
@@ -2339,7 +2339,7 @@ Aliases may also be used within functions.  Aliases must be <code>const</code>.<
 
 <p>Examples:</p>
 
-<pre><code class="language-js prettyprint">const staticHelper = importedNamespace.staticHelper;
+<pre><code class="language-js prettyprint good">const staticHelper = importedNamespace.staticHelper;
 const CONSTANT_NAME = ImportedClass.CONSTANT_NAME;
 const {assert, assertInstanceof} = asserts;
 </code></pre>
@@ -2465,7 +2465,7 @@ character of:
 
 <p>The basic formatting of JSDoc blocks is as seen in this example:</p>
 
-<pre><code class="language-js prettyprint">/**
+<pre><code class="language-js prettyprint good">/**
  * Multiple lines of JSDoc text are written here,
  * wrapped normally.
  * @param {number} arg A number to do something to.
@@ -2475,7 +2475,7 @@ function doSomething(arg) { &#8230; }
 
 <p>or in this single-line example:</p>
 
-<pre><code class="language-js prettyprint">/** @const @private {!Foo} A short bit of JSDoc. */
+<pre><code class="language-js prettyprint good">/** @const @private {!Foo} A short bit of JSDoc. */
 this.foo_ = foo;
 </code></pre>
 
@@ -2492,7 +2492,7 @@ optimization.  As such, these comments <strong>must</strong> be well-formed.</p>
 <p>Note that tools that automatically extract JSDoc (e.g. <a href="https://github.com/jleyba/js-dossier">JsDossier</a>) will often
 ignore plain text formatting, so if you did this:</p>
 
-<pre><code class="language-js prettyprint badcode">/**
+<pre><code class="language-js prettyprint bad">/**
  * Computes weight based on three factors:
  *   items sent
  *   items received
@@ -2507,7 +2507,7 @@ ignore plain text formatting, so if you did this:</p>
 
 <p>Instead, write a Markdown list:</p>
 
-<pre><code class="language-js prettyprint">/**
+<pre><code class="language-js prettyprint good">/**
  * Computes weight based on three factors:
  *
  *  - items sent
@@ -2524,7 +2524,7 @@ occupy their own line, with the tag at the beginning of the line.</p>
 
 <p>Disallowed:</p>
 
-<pre><code class="language-js prettyprint badcode">/**
+<pre><code class="language-js prettyprint bad">/**
  * The "param" tag must occupy its own line and may not be combined.
  * @param {number} left @param {number} right
  */
@@ -2535,7 +2535,7 @@ function add(left, right) { ... }
 <code>@const</code>, <code>@final</code>, <code>@export</code>) may be combined onto the same line, along with an
 optional type when appropriate.</p>
 
-<pre><code class="language-js prettyprint">/**
+<pre><code class="language-js prettyprint good">/**
  * Place more complex annotations (like "implements" and "template")
  * on their own lines.  Multiple simple tags (like "export" and "final")
  * may be combined in one line.
@@ -2568,7 +2568,7 @@ System</a>.</p>
 be lined up with the description on previous lines, but this horizontal
 alignment is discouraged.</p>
 
-<pre><code class="language-js prettyprint">/**
+<pre><code class="language-js prettyprint good">/**
  * Illustrates line wrapping for long param/return descriptions.
  * @param {string} foo This is a param with a description too long to fit in
  *     one line.
@@ -2593,7 +2593,7 @@ dependencies or compatibility information. Wrapped lines are not indented.</p>
 
 <p>Example:</p>
 
-<pre><code class="language-js prettyprint">/**
+<pre><code class="language-js prettyprint good">/**
  * @fileoverview Description of file, its uses and information
  * about its dependencies.
  * @package
@@ -2611,7 +2611,7 @@ constructor. <code>@constructor</code> and <code>@extends</code> annotations are
 <code>class</code> keyword unless the class is being used to declare an <code>@interface</code> or
 it extends a generic class.</p>
 
-<pre><code class="language-js prettyprint">/**
+<pre><code class="language-js prettyprint good">/**
  * A fancier event target that does cool things.
  * @implements {Iterable&lt;string&gt;}
  */
@@ -2644,7 +2644,7 @@ class Listable {
 also have a description. Individual enum items may be documented with a JSDoc
 comment on the preceding line.</p>
 
-<pre><code class="language-js prettyprint">/**
+<pre><code class="language-js prettyprint good">/**
  * A useful type union, which is reused often.
  * @typedef {!Bandersnatch|!BandersnatchType}
  */
@@ -2690,7 +2690,7 @@ class method (including visibility annotations) and they should be omitted in
 the overridden method. However, if any type is refined in type annotations, all
 <code>@param</code> and <code>@return</code> annotations must be specified explicitly.</p>
 
-<pre><code class="language-js prettyprint">/** A class that does something. */
+<pre><code class="language-js prettyprint good">/** A class that does something. */
 class SomeClass extends SomeBaseClass {
   /**
    * Operates on an instance of MyClass and returns something.
@@ -2719,13 +2719,13 @@ function makeArray(arg) { ... }
 optionally use inline JSDocs in the function's signature. These inline JSDocs
 specify the return and param types without tags.</p>
 
-<pre><code class="language-js prettyprint">function /** string */ foo(/** number */ arg) {...}
+<pre><code class="language-js prettyprint good">function /** string */ foo(/** number */ arg) {...}
 </code></pre>
 
 <p>If you need descriptions or tags, use a single JSDoc comment above the method.
 For example, methods which return values need a <code>@return</code> tag.</p>
 
-<pre><code class="language-js prettyprint">class MyClass {
+<pre><code class="language-js prettyprint good">class MyClass {
   /**
    * @param {number} arg
    * @return {string}
@@ -2734,7 +2734,7 @@ For example, methods which return values need a <code>@return</code> tag.</p>
 }
 </code></pre>
 
-<pre><code class="language-js prettyprint badcode">// Illegal inline JSDocs.
+<pre><code class="language-js prettyprint bad">// Illegal inline JSDocs.
 
 class MyClass {
   /** @return {string} */ foo() {...}
@@ -2749,7 +2749,7 @@ class MyClass {
 inference is insufficient or explicit annotation improves readability, then
 annotate param and return types like this:</p>
 
-<pre><code class="language-js prettyprint">promise.then(
+<pre><code class="language-js prettyprint good">promise.then(
     /** @return {string} */
     (/** !Array&lt;string&gt; */ items) =&gt; {
       doSomethingWith(items);
@@ -2767,7 +2767,7 @@ code.</p>
 
 <p>Publicly exported constants are commented the same way as properties.</p>
 
-<pre><code class="language-js prettyprint">/** My class. */
+<pre><code class="language-js prettyprint good">/** My class. */
 class MyClass {
   /** @param {string=} someString */
   constructor(someString = 'default string') {
@@ -2821,7 +2821,7 @@ use sites.</li>
 
 <p>Bad:</p>
 
-<pre><code class="language-js prettyprint badcode">const /** MyObject */ myObject = null; // Non-primitive types must be annotated.
+<pre><code class="language-js prettyprint bad">const /** MyObject */ myObject = null; // Non-primitive types must be annotated.
 const /** !number */ someNum = 5; // Primitives are non-nullable by default.
 const /** number? */ someNullableNum = null; // ? should precede the type.
 const /** !{foo: string, bar: number} */ record = ...; // Already non-nullable.
@@ -2834,7 +2834,7 @@ const /** SomeCamelCaseName */ n = ...;
 
 <p>Good:</p>
 
-<pre><code class="language-js prettyprint">const /** ?MyObject */ myObject = null;
+<pre><code class="language-js prettyprint good">const /** ?MyObject */ myObject = null;
 const /** number */ someNum = 5;
 const /** ?number */ someNullableNum = null;
 const /** {foo: string, bar: number} */ record = ...;
@@ -2851,7 +2851,7 @@ cannot remedy it , it is possible to
 tighten the type by adding a type annotation comment and enclosing the
 expression in parentheses. Note that the parentheses are required.</p>
 
-<pre><code class="language-js prettyprint">/** @type {number} */ (x)
+<pre><code class="language-js prettyprint good">/** @type {number} */ (x)
 </code></pre>
 
 <h4 id="jsdoc-template-parameter-types">7.10.3 Template Parameter Types</h4>
@@ -2861,14 +2861,14 @@ makes it easier for readers to understand what code does.</p>
 
 <p>Bad:</p>
 
-<pre><code class="language-js prettyprint badcode">const /** !Object */ users = {};
+<pre><code class="language-js prettyprint bad">const /** !Object */ users = {};
 const /** !Array */ books = [];
 const /** !Promise */ response = ...;
 </code></pre>
 
 <p>Good:</p>
 
-<pre><code class="language-js prettyprint">const /** !Object&lt;string, !User&gt; */ users = {};
+<pre><code class="language-js prettyprint good">const /** !Object&lt;string, !User&gt; */ users = {};
 const /** !Array&lt;string&gt; */ books = [];
 const /** !Promise&lt;!Response&gt; */ response = ...;
 
@@ -2898,7 +2898,7 @@ function jsdoc appears above the whole assignment expression).</p>
 or <code>@return</code>. Use it also for variables or properties of function type, if they
 are not immediately initialized with the function definition.</p>
 
-<pre><code class="language-js prettyprint">  /** @private {function(string): string} */
+<pre><code class="language-js prettyprint good">  /** @private {function(string): string} */
   this.idGenerator_ = googFunctions.identity;
 </code></pre>
 
@@ -2908,7 +2908,7 @@ strange and unexpected behavior, and is rarely what is actually desired.</p>
 
 <p>Bad - type error, but no warning given:</p>
 
-<pre><code class="language-js prettyprint badcode">/** @param {function()} generateNumber */
+<pre><code class="language-js prettyprint bad">/** @param {function()} generateNumber */
 function foo(generateNumber) {
   const /** number */ x = generateNumber();  // No compile-time type error here.
 }
@@ -2918,7 +2918,7 @@ foo(() =&gt; 'clearly not a number');
 
 <p>Good:</p>
 
-<pre><code class="language-js prettyprint">/**
+<pre><code class="language-js prettyprint good">/**
  * @param {function(): *} inputFunction1 Can return any type.
  * @param {function(): undefined} inputFunction2 Definitely doesn't return
  *      anything.
@@ -2938,7 +2938,7 @@ annotations.</p>
 
 <p>Good:</p>
 
-<pre><code class="language-js prettyprint">/** @type {function(string): number} */
+<pre><code class="language-js prettyprint good">/** @type {function(string): number} */
 
 /** @type {{foo: number, bar: number}} */
 
@@ -2962,7 +2962,7 @@ annotations.</p>
 
 <p>Bad:</p>
 
-<pre><code class="language-js prettyprint badcode">// Only put a space after the colon
+<pre><code class="language-js prettyprint bad">// Only put a space after the colon
 /** @type {function(string) : number} */
 
 // Put spaces after colons and commas
@@ -3023,7 +3023,7 @@ it can be taken care of properly.</li>
 
 <p>Example</p>
 
-<pre><code class="language-js prettyprint">/** @suppress {uselessCode} Unrecognized 'use asm' declaration */
+<pre><code class="language-js prettyprint good">/** @suppress {uselessCode} Unrecognized 'use asm' declaration */
 function fn() {
   'use asm';
   return 0;
@@ -3124,7 +3124,7 @@ part of valid Google style.</p>
 
 <p>Syntax: <code>@author username@google.com (First Last)</code></p>
 
-<pre><code class="language-js prettyprint">/**
+<pre><code class="language-js prettyprint good">/**
  * @fileoverview Utilities for handling textareas.
  * @author kuth@google.com (Uthur Pendragon)
  */
@@ -3142,7 +3142,7 @@ to determine who owns the test results.</p>
 
 <p>Syntax: <code>@bug bugnumber</code></p>
 
-<pre><code class="language-js prettyprint">/** @bug 1234567 */
+<pre><code class="language-js prettyprint good">/** @bug 1234567 */
 function testSomething() {
   // &#8230;
 }
@@ -3174,7 +3174,7 @@ regression tests as easy as possible.</p>
 <p>Historically, <code>`BatchItem`</code> was written as
 <code class="badcode">{@code BatchItem}</code>.</p>
 
-<pre><code class="language-js prettyprint">/** Processes pending `BatchItem` instances. */
+<pre><code class="language-js prettyprint good">/** Processes pending `BatchItem` instances. */
 function processBatchItems() {}
 </code></pre>
 
@@ -3189,7 +3189,7 @@ formatted in generated documentation.</p>
 
 <p>Syntax: <code>@desc Message description</code></p>
 
-<pre><code class="language-js prettyprint">/** @desc Notifying a user that their account has been created. */
+<pre><code class="language-js prettyprint good">/** @desc Notifying a user that their account has been created. */
 exports.MSG_ACCOUNT_CREATED = goog.getMsg(
     'Your account has been successfully created.');
 </code></pre>
@@ -3205,7 +3205,7 @@ exports.MSG_ACCOUNT_CREATED = goog.getMsg(
 <p>This tag is used to generate cross-reference links within generated
 documentation.</p>
 
-<pre><code class="language-js prettyprint">/** Processes pending {@link BatchItem} instances. */
+<pre><code class="language-js prettyprint good">/** Processes pending {@link BatchItem} instances. */
 function processBatchItems() {}
 </code></pre>
 
@@ -3213,7 +3213,7 @@ function processBatchItems() {}
 generated documentation. For external links, always use Markdown's link syntax
 instead:</p>
 
-<pre><code class="language-js prettyprint">/**
+<pre><code class="language-js prettyprint good">/**
  * This class implements a useful subset of the
  * [native Event interface](https://dom.spec.whatwg.org/#event).
  */
@@ -3228,7 +3228,7 @@ class ApplicationEvent {}
 
 <p>Syntax: <code>@see Link</code></p>
 
-<pre><code class="language-js prettyprint">/**
+<pre><code class="language-js prettyprint good">/**
  * Adds a single item, recklessly.
  * @see #addSafely
  * @see goog.Collect
@@ -3246,7 +3246,7 @@ class ApplicationEvent {}
 
 <p>Syntax: <code>@supported Description</code></p>
 
-<pre><code class="language-js prettyprint">/**
+<pre><code class="language-js prettyprint good">/**
  * @fileoverview Event Manager
  * Provides an abstracted interface to the browsers' event systems.
  * @supported IE10+, Chrome, Safari
@@ -3413,7 +3413,7 @@ function, script or module, which can cause unexpected behavior, especially with
 function closures that reference <code>var</code> declarations inside of loops. The
 following code gives an example:</p>
 
-<pre><code class="language-js prettyprint badcode">for (var i = 0; i &lt; 3; ++i) {
+<pre><code class="language-js prettyprint bad">for (var i = 0; i &lt; 3; ++i) {
   var iteration = i;
   setTimeout(function() { console.log(iteration); }, i*1000);
 }
@@ -3430,7 +3430,7 @@ function, <code>var</code> declarations should be as close as possible to their 
 for readability purposes. However, do not put a <code>var</code> declaration inside a block
 if that variable is referenced outside the block. For example:</p>
 
-<pre><code class="language-js prettyprint">function sillyFunction() {
+<pre><code class="language-js prettyprint good">function sillyFunction() {
   var count = 0;
   for (var x in y) {
     // "count" could be declared here, but don't do that.
@@ -3450,7 +3450,7 @@ for local variables).</p>
 
 <p>Do <strong>not</strong> do this:</p>
 
-<pre><code class="language-js prettyprint badcode">if (x) {
+<pre><code class="language-js prettyprint bad">if (x) {
   function foo() {}
 }
 </code></pre>
@@ -3465,7 +3465,7 @@ explicitly ban them in block scopes in strict mode.</p>
 <p>To get consistent behavior, instead use a <code>var</code> initialized with a function
 expression to define a function within a block:</p>
 
-<pre><code class="language-js prettyprint">if (x) {
+<pre><code class="language-js prettyprint good">if (x) {
   var foo = function() {};
 }
 </code></pre>
@@ -3498,7 +3498,7 @@ exceed the 80 column line length limit.</p>
 
 <p>The lines should be sorted alphabetically, with uppercase letters coming first:</p>
 
-<pre><code class="language-js prettyprint">goog.provide('namespace.MyClass');
+<pre><code class="language-js prettyprint good">goog.provide('namespace.MyClass');
 goog.provide('namespace.helperFoo');
 
 goog.require('an.extremelyLongNamespace.thatSomeoneThought.wouldBeNice.andNowItIsLonger.Than80Columns');
@@ -3515,12 +3515,12 @@ the same class (e.g. enums, inner classes, etc).</p>
 
 <p>Do this:</p>
 
-<pre><code class="language-js prettyprint">goog.provide('namespace.MyClass');
+<pre><code class="language-js prettyprint good">goog.provide('namespace.MyClass');
 </code></pre>
 
 <p>Not this:</p>
 
-<pre><code class="language-js prettyprint badcode">goog.provide('namespace.MyClass');
+<pre><code class="language-js prettyprint bad">goog.provide('namespace.MyClass');
 goog.provide('namespace.MyClass.CONSTANT');
 goog.provide('namespace.MyClass.Enum');
 goog.provide('namespace.MyClass.InnerClass');
@@ -3530,7 +3530,7 @@ goog.provide('namespace.MyClass.staticMethod');
 
 <p>Members on namespaces may also be provided:</p>
 
-<pre><code class="language-js prettyprint">goog.provide('foo.bar');
+<pre><code class="language-js prettyprint good">goog.provide('foo.bar');
 goog.provide('foo.bar.CONSTANT');
 goog.provide('foo.bar.method');
 </code></pre>
@@ -3559,7 +3559,7 @@ Instead, continue from the 0 column.</p>
 (e.g., most constructors, enums, and namespaces). Do not do this (see below for
 how to alias a constructor):</p>
 
-<pre><code class="language-js prettyprint badcode">goog.scope(function() {
+<pre><code class="language-js prettyprint bad">goog.scope(function() {
 var Button = goog.ui.Button;
 
 Button = function() { ... };
@@ -3568,7 +3568,7 @@ Button = function() { ... };
 
 <p>Names must be the same as the last property of the global that they are aliasing.</p>
 
-<pre><code class="language-js prettyprint">goog.provide('my.module.SomeType');
+<pre><code class="language-js prettyprint good">goog.provide('my.module.SomeType');
 
 goog.require('goog.dom');
 goog.require('goog.ui.Button');
