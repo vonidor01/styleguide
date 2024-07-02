@@ -4,7 +4,7 @@
   <p style="position: fixed; left: 0; top: 0; padding: 0.5em; margin: 0; background-color: #fef6e0; text-align: center; width: 100%; font-weight: bold;">
     Please note: This guide is old and is not being updated. It is retained
     as a reference as it was written for pre-ECMAScript 6th Edition features.
-    Please use the a href="jsguide.html">newer guide</a> instead.
+    Please use the <a href="jsguide.html">newer guide</a> instead.
   </p>
   <p class="revision">
     Revision 2.93
