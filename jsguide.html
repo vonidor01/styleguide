@@ -13,7 +13,7 @@
 <h1>Google JavaScript Style Guide</h1>
 <h2 id="introduction">1 Introduction</h2>
 
-<p>This document serves as the <strong>complete</strong> definition of Google&#8217;s coding standards
+<p>This document serves as the <strong>complete</strong> definition of Google’s coding standards
 for source code in the JavaScript programming language. A JavaScript source file
 is described as being <em>in Google Style</em> if and only if it adheres to the rules
 herein.</p>
@@ -30,8 +30,8 @@ we follow universally, and avoids giving advice that isn't clearly enforceable
 
 <ol>
 <li><p>The term <em>comment</em> always refers to <em>implementation</em> comments. We do not use
-the phrase <q>documentation comments</q>, instead using the common term &#8220;JSDoc&#8221;
-for both human-readable text and machine-readable annotations within <code>/** &#8230;
+the phrase <q>documentation comments</q>, instead using the common term “JSDoc”
+for both human-readable text and machine-readable annotations within <code>/** …
 */</code>.</p></li>
 <li><p>This Style Guide uses <a href="http://tools.ietf.org/html/rfc2119">RFC 2119</a> terminology when using the phrases <em>must</em>,
 <em>must not</em>, <em>should</em>, <em>should not</em>, and <em>may</em>. The terms <em>prefer</em> and
@@ -54,7 +54,7 @@ rules.</p>
 
 <p>File names must be all lowercase and may include underscores (<code>_</code>) or dashes
 (<code>-</code>), but no additional punctuation. Follow the convention that your project
-uses. Filenames&#8217; extension must be <code>.js</code>.</p>
+uses. Filenames’ extension must be <code>.js</code>.</p>
 
 <h3 id="file-encoding">2.2 File encoding: UTF-8</h3>
 
@@ -83,17 +83,17 @@ escapes are never used.</p>
 <h4 id="non-ascii-characters">2.3.3 Non-ASCII characters</h4>
 
 <p>For the remaining non-ASCII characters, either the actual Unicode character
-(e.g. <code>&#8734;</code>) or the equivalent hex or Unicode escape (e.g. <code>\u221e</code>) is used,
+(e.g. <code>∞</code>) or the equivalent hex or Unicode escape (e.g. <code>\u221e</code>) is used,
 depending only on which makes the code <strong>easier to read and understand</strong>.</p>
 
 <p>Tip: In the Unicode escape case, and occasionally even when actual Unicode
 characters are used, an explanatory comment can be very helpful.</p>
 
 <pre><code class="language-js prettyprint good">/* Best: perfectly clear even without a comment. */
-const units = '&#956;s';
+const units = 'μs';
 
-/* Allowed: but unnecessary as &#956; is a printable character. */
-const units = '\u03bcs'; // '&#956;s'
+/* Allowed: but unnecessary as μ is a printable character. */
+const units = '\u03bcs'; // 'μs'
 
 /* Good: use escapes for non-printable characters with a comment for clarity. */
 return '\ufeff' + content;  // Prepend a byte order mark.
@@ -121,7 +121,7 @@ file (a file containing a <code>goog.module</code> call) or an ECMAScript (ES) m
 <li><code>goog.module</code> statement, if a <code>goog.module</code> file</li>
 <li>ES <code>import</code> statements, if an ES module</li>
 <li><code>goog.require</code> and <code>goog.requireType</code> statements</li>
-<li>The file&#8217;s implementation</li>
+<li>The file’s implementation</li>
 </ol>
 
 <p><strong>Exactly one blank line</strong> separates each section that is present, except the
@@ -164,7 +164,7 @@ goog.module('foo.bar.baz');
 
 <p>The directory hierarchy reflects the namespace hierarchy, so that deeper-nested
 children are subdirectories of higher-level parent directories. Note that this
-implies that owners of &#8220;parent&#8221; namespace groups are necessarily aware of all
+implies that owners of “parent” namespace groups are necessarily aware of all
 child namespaces, since they exist in the same directory.</p>
 
 <h4 id="file-declare-legacy-namespace">3.3.2 <code>goog.module.declareLegacyNamespace</code></h4>
@@ -592,7 +592,7 @@ destructuring requires, again sorted by the names on the left hand side.
 Finally, any require calls that are standalone (generally these are for modules
 imported just for their side effects).</p>
 
-<p>Tip: There&#8217;s no need to memorize this order and enforce it manually. You can
+<p>Tip: There’s no need to memorize this order and enforce it manually. You can
 rely on your IDE to report requires
 that are not sorted correctly.</p>
 
@@ -670,7 +670,7 @@ function someFunction(param) {
 }
 </code></pre>
 
-<h3 id="file-implementation">3.7 The file&#8217;s implementation</h3>
+<h3 id="file-implementation">3.7 The file’s implementation</h3>
 
 <p>The actual implementation follows after all dependency information is declared
 (separated by at least one blank line).</p>
@@ -706,7 +706,7 @@ for (let i = 0; i &lt; foo.length; i++) bar(foo[i]);
 </code></pre>
 
 <p><strong>Exception</strong>: A simple if statement that can fit entirely on a single line with
-no wrapping (and that doesn&#8217;t have an else) may be kept on a single line with no
+no wrapping (and that doesn’t have an else) may be kept on a single line with no
 braces when it improves readability. This is the only case in which a control
 structure may omit braces and newlines.</p>
 
@@ -762,13 +762,13 @@ multiple blocks: <code>if</code>/<code>else</code> or <code>try</code>/<code>cat
 <p>Disallowed:</p>
 
 <pre><code class="language-js prettyprint bad">if (condition) {
-  // &#8230;
+  // …
 } else if (otherCondition) {} else {
-  // &#8230;
+  // …
 }
 
 try {
-  // &#8230;
+  // …
 } catch (e) {}
 </code></pre>
 
@@ -781,8 +781,8 @@ level. The indent level applies to both code and comments throughout the block.
 
 <h4 id="formatting-array-literals">4.2.1 Array literals: optionally <q>block-like</q></h4>
 
-<p>Any array literal may optionally be formatted as if it were a &#8220;block-like
-construct.&#8221; For example, the following are all valid (<strong>not</strong> an exhaustive
+<p>Any array literal may optionally be formatted as if it were a “block-like
+construct.” For example, the following are all valid (<strong>not</strong> an exhaustive
 list):</p>
 
 <pre><code class="language-js prettyprint good">const a = [
@@ -809,8 +809,8 @@ larger arrays.</p>
 
 <h4 id="formatting-object-literals">4.2.2 Object literals: optionally <q>block-like</q></h4>
 
-<p>Any object literal may optionally be formatted as if it were a &#8220;block-like
-construct.&#8221; The same examples apply as <a href="#formatting-array-literals">??</a>. For
+<p>Any object literal may optionally be formatted as if it were a “block-like
+construct.” The same examples apply as <a href="#formatting-array-literals">??</a>. For
 example, the following are all valid (<strong>not</strong> an exhaustive list):</p>
 
 <pre><code class="language-js prettyprint good">const a = {
@@ -833,7 +833,7 @@ someMethod(foo, {
 
 <p>Class literals (whether declarations or expressions) are indented as blocks. Do
 not add semicolons after methods, or after the closing brace of a class
-<em>declaration</em> (statements&#8212;such as assignments&#8212;that contain class <em>expressions</em>
+<em>declaration</em> (statements—such as assignments—that contain class <em>expressions</em>
 are still terminated with a semicolon). For inheritance, the <code>extends</code> keyword
 is sufficient unless the superclass is templatized. Subclasses of templatized
 types must explicitly specify the template type in an <code>@extends</code> JSDoc
@@ -1150,14 +1150,14 @@ most common patterns for argument wrapping:</p>
 // function names, survives renaming without reindenting, low on space.
 doSomething(
     descriptiveArgumentOne, descriptiveArgumentTwo, descriptiveArgumentThree) {
-  // &#8230;
+  // …
 }
 
 // If the argument list is longer, wrap at 80. Uses less vertical space,
 // but violates the rectangle rule and is thus not recommended.
 doSomething(veryDescriptiveArgumentNumberOne, veryDescriptiveArgumentTwo,
     tableModelEventHandlerProxy, artichokeDescriptorAdapterIterator) {
-  // &#8230;
+  // …
 }
 
 // Four-space, one argument per line.  Works with long function names,
@@ -1167,7 +1167,7 @@ doSomething(
     veryDescriptiveArgumentTwo,
     tableModelEventHandlerProxy,
     artichokeDescriptorAdapterIterator) {
-  // &#8230;
+  // …
 }
 </code></pre>
 
@@ -1192,7 +1192,7 @@ in <a href="#jsdoc">??</a>.</p>
 <h4 id="formatting-block-comment-style">4.8.1 Block comment style</h4>
 
 <p>Block comments are indented at the same level as the surrounding code. They may
-be in <code>/* &#8230; */</code> or <code>//</code>-style. For multi-line <code>/* &#8230; */</code> comments, subsequent
+be in <code>/* … */</code> or <code>//</code>-style. For multi-line <code>/* … */</code> comments, subsequent
 lines must start with * aligned with the <code>*</code> on the previous line, to make
 comments obvious with no extra context.</p>
 
@@ -1209,11 +1209,11 @@ comments obvious with no extra context.</p>
 
 <p>Comments are not enclosed in boxes drawn with asterisks or other characters.</p>
 
-<p>Do not use JSDoc (<code>/** &#8230; */</code>) for implementation comments.</p>
+<p>Do not use JSDoc (<code>/** … */</code>) for implementation comments.</p>
 
 <h4 id="formatting-param-name-comments">4.8.2 Parameter Name Comments</h4>
 
-<p>&#8220;Parameter name&#8221; comments should be used whenever the value and method name do
+<p>“Parameter name” comments should be used whenever the value and method name do
 not sufficiently convey the meaning, and refactoring the method to be clearer is
 infeasible .
 Their preferred format is before the value with <q>=</q>:</p>
@@ -1354,15 +1354,15 @@ destructured array parameter is optional, and provide default values on the left
 hand side:</p>
 
 <pre><code class="language-js prettyprint good">/** @param {!Array&lt;number&gt;=} param1 */
-function optionalDestructuring([a = 4, b = 2] = []) { &#8230; };
+function optionalDestructuring([a = 4, b = 2] = []) { … };
 </code></pre>
 
 <p>Disallowed:</p>
 
-<pre><code class="language-js prettyprint bad">function badDestructuring([a, b] = [4, 2]) { &#8230; };
+<pre><code class="language-js prettyprint bad">function badDestructuring([a, b] = [4, 2]) { … };
 </code></pre>
 
-<p>Tip: For (un)packing multiple values into a function&#8217;s parameter or return,
+<p>Tip: For (un)packing multiple values into a function’s parameter or return,
 prefer object destructuring to array destructuring when possible, as it allows
 naming the individual elements and specifying a different type for each.</p>
 
@@ -1440,7 +1440,7 @@ should not be mixed with non-enum keys in the same literal.</p>
 <h4 id="features-objects-method-shorthand">5.3.5 Method shorthand</h4>
 
 <p>Methods can be defined on object literals using the method shorthand (<code>{method()
-{&#8230; }}</code>) in place of a colon immediately followed by a <code>function</code> or arrow
+{… }}</code>) in place of a colon immediately followed by a <code>function</code> or arrow
 function literal.</p>
 
 <p>Example:</p>
@@ -1592,7 +1592,7 @@ non-method properties in the constructor.</p>
 
 <h4 id="features-classes-fields">5.4.2 Fields</h4>
 
-<p>Define all of a concrete object&#8217;s fields (i.e. all properties other than
+<p>Define all of a concrete object’s fields (i.e. all properties other than
 methods) in the constructor. Annotate fields that are never reassigned with
 <code>@const</code> (these need not be deeply immutable). Annotate non-public fields with
 the proper visibility annotation (<code>@private</code>, <code>@protected</code>, <code>@package</code>).
@@ -1614,7 +1614,7 @@ be defined within a nested scope in the constructor nor on a concrete class's
 </code></pre>
 
 <p>Tip: Properties should never be added to or removed from an instance after the
-constructor is finished, since it significantly hinders VMs&#8217; ability to
+constructor is finished, since it significantly hinders VMs’ ability to
 optimize. If necessary, fields that are initialized later should be explicitly
 set to <code>undefined</code> in the constructor to prevent later shape changes. Adding
 <code>@struct</code> to an object will check that undeclared properties are not
@@ -1646,7 +1646,7 @@ interferes with Closure Compiler optimizations. Static methods should only be
 called on the base class itself. Static methods should not be called on
 variables containing a dynamic instance that may be either the constructor or a
 subclass constructor (and must be defined with <code>@nocollapse</code> if this is done),
-and must not be called directly on a subclass that doesn&#8217;t define the method
+and must not be called directly on a subclass that doesn’t define the method
 itself. Do not access <code>this</code> in static methods.</p>
 
 <p>Disallowed:</p>
@@ -2235,7 +2235,7 @@ return handleTextResponse(response);
   }
 </code></pre>
 
-<p>Tip: Unlike in some other languages, patterns like the above simply don&#8217;t work
+<p>Tip: Unlike in some other languages, patterns like the above simply don’t work
 since this will catch the error thrown by <code>fail</code>. Use <code>assertThrows()</code> instead.</p>
 
 <h4 id="features-switch-statements">5.8.3 Switch statements</h4>
@@ -2277,7 +2277,7 @@ no code. The <code>default</code> statement group must be last.</p>
 
 <p>Only use <code>this</code> in class constructors and methods, in arrow functions defined
 within class constructors and methods, or in functions that have an explicit
-<code>@this</code> declared in the immediately-enclosing function&#8217;s JSDoc.</p>
+<code>@this</code> declared in the immediately-enclosing function’s JSDoc.</p>
 
 <p>Never use <code>this</code> to refer to the global object, the context of an <code>eval</code>, the
 target of an event, or unnecessarily <code>call()</code>ed or <code>apply()</code>ed functions.</p>
@@ -2324,7 +2324,7 @@ not-yet-complete web standards), or proprietary features that are only
 implemented in some browsers. Use only features defined in the current ECMA-262
 or WHATWG standards. (Note that projects writing against specific APIs, such as
 Chrome extensions or Node.js, can obviously use those APIs). Non-standard
-language &#8220;extensions&#8221; (such as those provided by some external transpilers) are
+language “extensions” (such as those provided by some external transpilers) are
 forbidden.</p>
 
 <h4 id="disallowed-features-wrapper-objects">5.11.5 Wrapper objects for primitive types</h4>
@@ -2351,7 +2351,7 @@ if (!x) alert(typeof x);  // alerts 'boolean', as expected
 
 <p>Never modify builtin types, either by adding methods to their constructors or to
 their prototypes. Avoid depending on libraries that do this. Note that the
-JSCompiler&#8217;s runtime library will provide standards-compliant polyfills where
+JSCompiler’s runtime library will provide standards-compliant polyfills where
 possible; nothing else may modify builtin objects.</p>
 
 <p>Do not add symbols to the global object unless absolutely necessary (e.g.
@@ -2461,7 +2461,7 @@ by underscores. There is no reason for a constant to be named with a trailing
 underscore, since private static properties can be replaced by (implicitly
 private) module locals.</p>
 
-<h5 id="naming-definition-of-constant">6.2.5.1 Definition of &#8220;constant&#8221;</h5>
+<h5 id="naming-definition-of-constant">6.2.5.1 Definition of “constant”</h5>
 
 <p>Every constant is a <code>@const</code> static property or a module-local <code>const</code>
 declaration, but not all <code>@const</code> static properties and module-local <code>const</code>s
@@ -2496,7 +2496,7 @@ const {Foo} = goog.require('my.foo');  // mirrors imported name
 const logger = log.getLogger('loggers.are.not.immutable');
 </code></pre>
 
-<p>Constants&#8217; names are typically nouns or noun phrases.</p>
+<p>Constants’ names are typically nouns or noun phrases.</p>
 
 <h5 id="naming-local-aliases">6.2.5.2 Local aliases</h5>
 
@@ -2560,7 +2560,7 @@ following (nearly) deterministic scheme.</p>
 
 <ol>
 <li>Convert the phrase to plain ASCII and remove any apostrophes. For example,
-<q>M&#252;ller's algorithm</q> might become <q>Muellers algorithm</q>.</li>
+<q>Müller's algorithm</q> might become <q>Muellers algorithm</q>.</li>
 <li>Divide this result into words, splitting on spaces and any remaining
 punctuation (typically hyphens).
 <ol>
@@ -2573,8 +2573,8 @@ recommendation does not apply.</li>
 <li>Now lowercase everything (including acronyms), then uppercase only the first
 character of:
 <ol>
-<li>&#8230; each word, to yield <code>UpperCamelCase</code>, or</li>
-<li>&#8230; each word except the first, to yield <code>lowerCamelCase</code></li>
+<li>… each word, to yield <code>UpperCamelCase</code>, or</li>
+<li>… each word except the first, to yield <code>lowerCamelCase</code></li>
 </ol></li>
 <li>Finally, join all the words into a single identifier.</li>
 </ol>
@@ -2643,7 +2643,7 @@ and <code>checkNonEmpty</code> are likewise both correct.</p>
  * wrapped normally.
  * @param {number} arg A number to do something to.
  */
-function doSomething(arg) { &#8230; }
+function doSomething(arg) { … }
 </code></pre>
 
 <p>or in this single-line example:</p>
@@ -2852,7 +2852,7 @@ documented when necessary. Return type may be omitted if the function has no
 non-empty <code>return</code> statements.</p>
 
 <p>Method, parameter, and return descriptions (but not types) may be omitted if
-they are obvious from the rest of the method&#8217;s JSDoc or from its signature.</p>
+they are obvious from the rest of the method’s JSDoc or from its signature.</p>
 
 <p>Method descriptions begin with a verb phrase that describes what the method
 does. This phrase is not an imperative sentence, but instead is written in the
@@ -3239,7 +3239,7 @@ maintain compliance would create unnecessary churn. However, if significant
 changes are being made to a file it is expected that the file will be in
 Google Style.</li>
 <li>Be careful not to allow opportunistic style fixes to muddle the focus of a
-CL. If you find yourself making a lot of style changes that aren&#8217;t critical
+CL. If you find yourself making a lot of style changes that aren’t critical
 to the central focus of a CL, promote those changes to a separate CL.</li>
 </ol>
 
@@ -3321,7 +3321,7 @@ to determine who owns the test results.</p>
 
 <pre><code class="language-js prettyprint good">/** @bug 1234567 */
 function testSomething() {
-  // &#8230;
+  // …
 }
 
 /**
@@ -3329,7 +3329,7 @@ function testSomething() {
  * @bug 1234569
  */
 function testTwoBugs() {
-  // &#8230;
+  // …
 }
 </code></pre>
 
