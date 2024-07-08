@@ -13,6 +13,8 @@ We seek to balance three goals:
 
 Contents:
 
+1.  [Minimum viable documentation](#minimum-viable-documentation)
+1.  [Better is better than best](#better-is-better-than-best)
 1.  [Capitalization](#capitalization)
 1.  [Document layout](#document-layout)
 1.  [Table of contents](#table-of-contents)
@@ -46,6 +48,43 @@ Contents:
 1.  [Images](#images)
 1.  [Tables](#tables)
 1.  [Strongly prefer Markdown to HTML](#strongly-prefer-markdown-to-html)
+
+## Minimum viable documentation
+
+A small set of fresh and accurate docs is better than a sprawling, loose
+assembly of "documentation" in various states of disrepair.
+
+The **Markdown way** encourages engineers to take ownership of their docs and
+keep them up to date with the same zeal we keep our tests in good order. Strive
+for this.
+
+*   Identify what you really need: release docs, API docs, testing guidelines.
+*   Delete cruft frequently and in small batches.
+
+## Better is better than best
+
+The standards for an internal documentation review are different from the
+standards for code reviews. Reviewers should ask for improvements, but in
+general, the author should always be able to invoke the "Better/Best Rule."
+
+Fast iteration is your friend. To get long-term improvement, **authors must stay
+productive** when making short-term improvements. Set lower standards for each
+CL, so that **more such CLs** can happen.
+
+As a reviewer of a documentation CL:
+
+1.  When reasonable, LGTM immediately and trust that comments will be fixed
+    appropriately.
+2.  Prefer to suggest an alternative rather than leaving a vague comment.
+3.  For substantial changes, start your own follow-up CL instead. Especially try
+    to avoid comments of the form "You should *also*...".
+4.  On rare occasions, hold up submission if the CL actually makes the docs
+    worse. It's okay to ask the author to revert.
+
+As an author:
+
+1.  Avoid wasting cycles with trivial argument. Capitulate early and move on.
+2.  Cite the Better/Best Rule as often as needed.
 
 ## Capitalization
 
@@ -453,7 +492,7 @@ backslash at the end of the line:
 
 <pre>
 ```shell
-$ blaze run :target -- --flag --foo=longlonglonglonglongvalue \
+$ bazel run :target -- --flag --foo=longlonglonglonglongvalue \
   --bar=anotherlonglonglonglonglonglonglonglonglonglongvalue
 ```
 </pre>
