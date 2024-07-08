@@ -21,6 +21,7 @@ that apply to that project.
 *   [HTML/CSS Style Guide][htmlcss]
 *   [JavaScript Style Guide][js]
 *   [Java Style Guide][java]
+*   [JSON Style Guide][json]
 *   [Markdown Style Guide][markdown]
 *   [Objective-C Style Guide][objc]
 *   [Python Style Guide][py]
@@ -72,6 +73,7 @@ primarily optimizing for Google's internal needs.
 [gh-tracker]: https://github.com/google/styleguide/issues
 [go]: go/
 [java]: https://google.github.io/styleguide/javaguide.html
+[json]: https://google.github.io/styleguide/jsoncstyleguide.xml
 [kotlin]: https://developer.android.com/kotlin/style-guide
 [py]: https://google.github.io/styleguide/pyguide.html
 [r]: https://google.github.io/styleguide/Rguide.html
