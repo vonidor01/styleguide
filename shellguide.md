@@ -90,19 +90,23 @@ Some guidelines:
 
 ### File Extensions
 
-Executables should have no extension (strongly preferred) or a
-`.sh` extension. Libraries must have a `.sh`
-extension and should not be executable.
+Executables should have a `.sh` extension or no extension:
 
-It is not necessary to know what language a program is written in when
-executing it and shell doesn't require an extension so we prefer not
-to use one for executables.
+-   If the executable will have an [`sh_binary`](http://go/be#sh_binary) build
+    rule, then prefer to use a `.sh` extension. This enables you to use the
+    recommended naming convention, with a source file like `foo.sh` and a build
+    rule named `foo`.
+-   If the executable will be added directly to the user's `PATH`, then prefer
+    to use no extension. It is not necessary to know what language a program is
+    written in when executing it and shell doesn't require an extension so we
+    prefer not to use one for executables that will be directly invoked by
+    users. At the same time, consider whether it is preferable to deploy the
+    output of a `sh_binary` or
+    [`sh_binary_sar`](http://google3/storage/binfs/binfs.bzl?q=symbol:sh_binary_sar)
+    build rule, rather than deploying the source file directly.
+-   If neither of the above apply, then either choice is acceptable.
 
-However, for libraries it's important to know what language it is and
-sometimes there's a need to have similar libraries in different
-languages. This allows library files with identical purposes but
-different languages to be identically named except for the
-language-specific suffix.
+Libraries must have a `.sh` extension and should not be executable.
 
 <a id="s2.2-suid-sgid"></a>
 
